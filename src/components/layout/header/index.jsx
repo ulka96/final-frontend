@@ -58,7 +58,7 @@ const Header = () => {
           {
             navElements && navElements.map((elem) => {
               return <Link
-                className="hover:text-gray-600 transition duration-200">
+                className="hover:text-gray-400 transition duration-200">
                 <li key={elem.id}>{elem.title}</li>
               </Link>
             })
@@ -71,8 +71,10 @@ const Header = () => {
               <CiHeart className='w-6 h-6 text-[#5e4fa8]'/>
             </div>
 
-            <div className='p-[19px] rounded-full bg-[#f8f7fb]'>
-              <PiShoppingCart className='w-6 h-6 text-[#5e4fa8]'/>
+            <div className='p-[19px] rounded-full bg-[#f8f7fb] relative'>
+              <PiShoppingCart className='w-6 h-6 text-[#5e4fa8]' />
+              <span className='h-6 w-6 rounded-full bg-[#5e4fa8] border border-[#5e4fa8] text-white flex 
+            items-center justify-center text-xs font-semibold absolute -right-[10px] top-3'>2</span>
             </div>
 
             <div className='py-4 px-5 rounded-full bg-[#7c71df]'>
