@@ -105,7 +105,7 @@ const Header = () => {
 
                 {/* Mobile menu items */}
                 {isMenuOpen && (
-          <ul className='lg:hidden md:hidden flex flex-col gap-4 mt-4 p-6 text-[14px] absolute right-5 top-[70px] bg-white shadow-lg rounded-lg border border-gray-200 text-gray-700'>
+          <ul className='lg:hidden  flex flex-col z-10  md:z-10 gap-4 mt-4 p-6 text-[14px] absolute right-5 top-[70px] bg-white shadow-lg rounded-lg border border-gray-200 text-gray-700'>
             <li className='flex items-center gap-2 mb-3'>
               <CgProfile className='w-6 h-6 text-gray-500' />
               <span className='text-gray-600'>Profile</span>
