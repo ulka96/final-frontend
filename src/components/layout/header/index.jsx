@@ -48,7 +48,7 @@ const Header = () => {
 ]  
   return (
     <Container>
-      <div className='mt-[11px] px-4 md:px-12 lg:px-20'>
+      <div className='mt-[11px]'>
         <div className='flex justify-between items-center'>
         <div>
            <img src={logo} alt="logo" className='w-[80px] h-[30px]' />
