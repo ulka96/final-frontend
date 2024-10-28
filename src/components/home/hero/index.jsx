@@ -79,7 +79,7 @@ const Hero = () => {
         <div className="lg:mt-0 mt-36 absolute left-[5%] top-1/2  transform -translate-y-1/2 text-white lg:max-w-[400px] lg:space-y-2 z-20 px-4 lg:px-0">
         
         <Container>
-        <h1 className="ml-1 text-[14px] lg:text-lg md:text-[16px] font-medium text-black">
+        <h1 className=" text-[14px] lg:text-lg md:text-[16px] font-medium text-black">
           {slide.title}
         </h1>
         <p className="text-xl lg:text-[52px] md:text-[32px] font-bold text-[#C4932C] leading-6 md:leading-10 lg:leading-[65px] w-[200px] md:w-[500px] lg:w-[500px]">
