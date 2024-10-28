@@ -79,20 +79,22 @@ const Hero = () => {
         <div className="lg:mt-0 mt-36 absolute left-[5%] top-1/2  transform -translate-y-1/2 text-white lg:max-w-[400px] lg:space-y-2 z-20 px-4 lg:px-0">
         
         <Container>
-        <h1 className=" text-[14px] lg:text-lg md:text-[16px] font-medium text-black">
+        <div className='-ml-4 items-baseline'>
+        <h1 className="md:ml-1 lg:mt-24 text-[12px] lg:text-lg md:text-[16px] font-medium text-black">
           {slide.title}
         </h1>
-        <p className="text-xl lg:text-[52px] md:text-[32px] font-bold text-[#C4932C] leading-6 md:leading-10 lg:leading-[65px] w-[200px] md:w-[500px] lg:w-[500px]">
+        <p className="text-lg lg:text-[52px] md:text-[32px] font-bold text-[#C4932C] leading-6 md:leading-10 lg:leading-[65px] w-[200px] md:w-[500px] lg:w-[500px]">
           {slide.description}
         </p>
-        <h1 className="hidden lg:block md:block ml-1 text-[14px] lg:text-lg font-medium text-black md:w-[400px]  lg:w-[500px]">
+        <h1 className="hidden lg:block md:block  ml-1 text-[14px] lg:text-lg font-medium text-black md:w-[400px]  lg:w-[500px]">
           {slide.content}
         </h1>
-        <button className="relative inline-block py-1 px-3 lg:px-6 lg:py-3 md:px-4 md:py-2 md:mt-3 lg:mt-4 mt-3 text-xs lg:text-sm font-semibold uppercase transition-all duration-300 group bg-gradient-to-r from-[#a07822] to-[#C4932C] hover:from-[#C4932C] hover:to-[#a07822] rounded-full text-white">
+        <button className="relative mb-24 md:mb-40 lg:-mb-48 inline-block py-1 px-3 lg:px-6 lg:py-3 md:px-4 md:py-2 md:mt-3 lg:mt-4 mt-3 text-xs lg:text-sm font-semibold uppercase transition-all duration-300 group bg-gradient-to-r from-[#a07822] to-[#C4932C] hover:from-[#C4932C] hover:to-[#a07822] rounded-full text-white">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
           </span>
           Shop Now
-        </button>
+            </button>
+          </div>
         </Container>  
         </div>  
           
@@ -108,7 +110,7 @@ const Hero = () => {
     {slides.map((_, index) => (
       <span
         key={index}
-        className={`h-[15px] w-[15px] border-[3px] border-[#ffffffcc] rounded-full mx-2 ${
+        className={`lg:h-[15px] lg:w-[15px] md:h-[10px] md:w-[10px] h-[8px] w-[8px] border-[1px] lg:border-[3px] md:border-[2px] border-[#ffffffcc] rounded-full mx-2 ${
           index === currentSlide ? "bg-[#a07822]" : "bg-transparent"
         } hover:border-[#a07822]`}
         onClick={() => goToSlide(index)}
