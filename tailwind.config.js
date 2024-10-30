@@ -31,11 +31,10 @@ export default {
     function ({ addUtilities }) {
       addUtilities({
         '.scrollbar-hide': {
-          /* For Webkit browsers */
-          '-webkit-overflow-scrolling': 'touch',
-          'scrollbar-width': 'none', /* For Firefox */
+                   '-webkit-overflow-scrolling': 'touch',
+          'scrollbar-width': 'none', 
           '&::-webkit-scrollbar': {
-            display: 'none' /* Safari and Chrome */
+            display: 'none' 
           }
         }
       })

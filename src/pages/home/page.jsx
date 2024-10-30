@@ -3,6 +3,7 @@ import Hero from '../../components/home/hero'
 import Satisfaction from '../../components/home/satisfaction'
 import Categories from '../../components/home/categories'
 import TopProducts from '../../components/home/topProducts'
+import Reviews from '../../components/home/reviews'
 
 const HomePage = () => {
   return (
@@ -10,7 +11,8 @@ const HomePage = () => {
       <Hero />
       <Satisfaction />
       <Categories />
-      <TopProducts/>
+      <TopProducts />
+      <Reviews/>
     </div>
   )
 }

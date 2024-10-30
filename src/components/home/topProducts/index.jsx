@@ -31,8 +31,9 @@ const TopProducts = () => {
            
           </div>  
           
-          <div className='flex justify-center items-center lg:mt-12 md:mt-8 mt-6 mx-auto  lg:py-3 md:py-2 py-1 border border-[#b88e2f] md:w-[300px] lg:w-[400px] w-[200px]'>
-            <button className='lg:text-[18px] md:text-[16px] text-[14px] text-[#b88e2f] font-bold '>Show all</button>
+          <div className='flex justify-center items-center lg:mt-12 md:mt-8 mt-6 mx-auto  lg:py-3 md:py-2 py-1 
+          border border-[#b88e2f] md:w-[300px] lg:w-[400px] w-[200px] text-[#b88e2f] hover:shadow-2xl hover:bg-[#b88e2f]  hover:text-white'>
+            <button className='lg:text-[18px] md:text-[16px] text-[14px] font-bold '>Show all</button>
           </div>
                   
                   

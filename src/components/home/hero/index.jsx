@@ -71,7 +71,7 @@ const Hero = () => {
   {slides.map((slide, index) => (
     <div
       key={slide.id}
-      className={`h-[50vh] overflow-hidden ${
+      className={`h-[65vh] overflow-hidden ${
         index === currentSlide ? "transition-transform duration-700 ease-in-out transform hover:scale-110" : ""
       }`}
       style={{ display: index === currentSlide ? "block" : "none" }}
@@ -79,7 +79,7 @@ const Hero = () => {
         <div className="lg:mt-0 mt-36 absolute left-[5%] top-1/2  transform -translate-y-1/2 text-white lg:max-w-[400px] lg:space-y-2 z-20 px-4 lg:px-0">
         
         <Container>
-        <div className='-ml-4 items-baseline'>
+        <div className='-ml-4 items-baseline mb-11'>
         <h1 className="md:ml-1 lg:mt-24 text-[12px] lg:text-lg md:text-[16px] font-medium text-black">
           {slide.title}
         </h1>
