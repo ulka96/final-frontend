@@ -11,6 +11,7 @@ import BedRoomPage from './pages/bedRoom/page.jsx';
 import KitchenPage from './pages/kitchen/page.jsx';
 import AccessoriesPage from './pages/accessories/page.jsx';
 import AllProductsPage from './pages/allProducts/page.jsx';
+import ProductDetailsPage from './pages/productDetails/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/all-products',
         element: <AllProductsPage/>
+      },
+      {
+        path: '/all-products/:productId',
+        element: <ProductDetailsPage/>
       },
       {
         path: '/sitting-room',
