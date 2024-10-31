@@ -8,11 +8,11 @@ import SingleReview from '../singleReview';
 
 const Reviews = () => {
     const settings = {
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 2000,
         speed: 600,
         draggable: true,
-        infinite: false,
+        infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1,
         arrows: false,
