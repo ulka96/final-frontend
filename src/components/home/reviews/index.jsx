@@ -19,9 +19,9 @@ const Reviews = () => {
         dots: true,
         responsive: [
             {
-                breakpoint: 1440,
+                breakpoint: 393,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 1,
                     slidesToScroll: 1,
                 }
             },
@@ -33,9 +33,9 @@ const Reviews = () => {
                 }
             },
             {
-                breakpoint: 393,
+                breakpoint: 1440,
                 settings: {
-                    slidesToShow: 1,
+                    slidesToShow: 2,
                     slidesToScroll: 1,
                 }
             }
@@ -47,14 +47,14 @@ const Reviews = () => {
     };
 
     return (
-        <section className="w-full flex flex-row lg:p-8 p-4 justify-center items-center bg-[#f7f7f7] mb-5 mt-20">
+        <section className="w-full overflow-hidden flex flex-row lg:p-8 p-4 justify-center items-center bg-[#f7f7f7] mb-5 mt-20">
             <Container>
                 <div className='flex flex-col justify-center items-center'>
                     <h1 className='lg:text-[36px] text-[18px] font-semibold'>What Our Customer Say</h1>
                     <p className='w-[300px] lg:w-[351px] text-[12px] lg:text-[14px] text-center text-[#505050] mb-7'>Discover the Stories and Experiences of Our Delighted Customers</p>
                 </div>
                 
-                <Slider {...settings} className="lg:space-x-3 space-x-3  ">
+                <Slider {...settings} className="lg:space-x-3 space-x-3 md:mb-4 mb-2 overflow-hidden">
                     <SingleReview />
                     <SingleReview />
                     <SingleReview />

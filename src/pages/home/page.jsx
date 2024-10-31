@@ -4,6 +4,7 @@ import Satisfaction from '../../components/home/satisfaction'
 import Categories from '../../components/home/categories'
 import TopProducts from '../../components/home/topProducts'
 import Reviews from '../../components/home/reviews'
+import Faq from '../../components/home/faq'
 
 const HomePage = () => {
   return (
@@ -12,7 +13,8 @@ const HomePage = () => {
       <Satisfaction />
       <Categories />
       <TopProducts />
-      <Reviews/>
+      <Reviews />
+      <Faq/>
     </div>
   )
 }

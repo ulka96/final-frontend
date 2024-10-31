@@ -13,7 +13,7 @@ export default {
         },
       },
       animation: {
-        scrollRight: 'scrollRight 10s linear infinite',
+        scrollRight: 'scrollRight 10s linear infinite ',
       },
     },
   },

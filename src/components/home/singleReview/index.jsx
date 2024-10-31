@@ -7,7 +7,7 @@ const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
 const SingleReview = () => {
   return (
-    <div className="w-full max-w-xs lg:max-w-[400px]  mx-auto mb-6  bg-white rounded-lg flex flex-col items-start text-center shadow-lg p-4 lg:p-6"> 
+    <div className=" overflow-hidden max-w-xs ml-20 lg:ml-0 md:ml-0 lg:max-w-[400px] md:max-w-[390px] lg:mx-auto mb-6  bg-white rounded-lg flex flex-col items-start text-center shadow-lg p-4 lg:p-6"> 
       <div className="mb-4 text-4xl">
           <BiSolidQuoteAltLeft />
       </div>
