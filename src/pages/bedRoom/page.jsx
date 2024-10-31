@@ -8,13 +8,11 @@ import { IoChevronDown } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 
 
-
-
 import SingleProduct from '../../components/home/singleProduct';
 import PeopleAlsoViewed from '../../components/common/peopleAlsoViewed';
 
 
-const SittingRoomPage = () => {
+const BedRoomPage = () => {
 
 const [isOpenCategory, setIsOpenCategory] = useState(false);
 const [isOpenSort, setIsOpenSort] = useState(false);
@@ -31,14 +29,13 @@ const toggleDownSort = () => {
     };
 
 
-    
 
   return (
       <div>
           <Container>
               <div className='items-center justify-center flex flex-col my-12'>
-              <h1 className='text-[24px] md:text-[32px] lg:text-[44px] md:font-bold font-poppins font-semibold'>Sitting Room</h1>
-              <p className='text-[#737b90] text-[14px] md:text-[18px] lg:text-[22px] text-center mt-6'>"Transform your sitting room with our elegant and functional seating options, perfect for every modern home."</p>
+              <h1 className='text-[24px] md:text-[32px] lg:text-[44px] md:font-bold font-poppins font-semibold'>Bedroom</h1>
+              <p className='text-[#737b90] text-[14px] md:text-[18px] lg:text-[22px] text-center mt-6 '>"Create a peaceful and stylish sanctuary with our luxurious bedroom furniture, crafted to suit every modern retreat."</p>
               
               <div className='py-4 px-5 border border-[#c0c0c2] w-[353px] md:w-[738px] lg:w-[642px] rounded-[24px] mt-8 flex flex-row'>
                       <input type="text" placeholder='Search by name or category...'
@@ -53,27 +50,27 @@ const toggleDownSort = () => {
     <div className="py-[18px] px-8  lg:py-[20px] lg:px-10  bg-[#7c71df] text-white font-bold rounded-full flex justify-center items-center">
       All
     </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[100px]">
-      Sofa
+    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[140px]">
+      Nightstand
     </div>
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Accent chair
+      Dresser
   </div>
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Lounge chair
+      Wardrobe
     </div>
                       
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Coffee table
+      Bedding set
     </div>
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Center table
+      Vanity table
     </div>
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Flower pot
+      Throw pillows
     </div>
     <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Lamp
+      Bedside lamp
     </div>
   </div>
 </div>
@@ -225,4 +222,4 @@ const toggleDownSort = () => {
   )
 }
 
-export default SittingRoomPage
+export default BedRoomPage

@@ -7,6 +7,10 @@ import HomePage from "./pages/home/page.jsx";
 import SignInPage from './pages/sign-in/page.jsx';
 import SignUpPage from './pages/sign-up/page.jsx';
 import SittingRoomPage from './pages/sittingRoom/page.jsx';
+import BedRoomPage from './pages/bedRoom/page.jsx';
+import KitchenPage from './pages/kitchen/page.jsx';
+import AccessoriesPage from './pages/accessories/page.jsx';
+import AllProductsPage from './pages/allProducts/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -26,8 +30,24 @@ const router = createBrowserRouter([
         element: <SignUpPage/>
       },
       {
+        path: '/all-products',
+        element: <AllProductsPage/>
+      },
+      {
         path: '/sitting-room',
         element: <SittingRoomPage/>
+      },
+      {
+        path: '/bedroom',
+        element: <BedRoomPage/>
+      },
+      {
+        path: '/kitchen',
+        element: <KitchenPage/>
+      },
+      {
+        path: '/accessories',
+        element: <AccessoriesPage/>
       },
     ]
   }

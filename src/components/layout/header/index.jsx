@@ -77,7 +77,7 @@ const Header = () => {
             items-center justify-center text-xs font-semibold absolute -right-[10px] top-3'>2</span>
             </div>
 
-            <div className='py-4 px-5 rounded-full bg-[#7c71df]'>
+            <div className='py-4 px-5 rounded-full bg-[#7c71df] items-center justify-center my-auto'>
                 <Link className='flex gap-3 items-center justify-center'>
                   <p className='text-[16px] font-semibold text-white'>Get Started</p>
                   <LiaLongArrowAltRightSolid className='w-6 h-6 text-white'/>

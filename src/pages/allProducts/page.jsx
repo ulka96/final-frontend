@@ -11,10 +11,9 @@ import { FiSearch } from "react-icons/fi";
 
 
 import SingleProduct from '../../components/home/singleProduct';
-import PeopleAlsoViewed from '../../components/common/peopleAlsoViewed';
 
 
-const SittingRoomPage = () => {
+const AllProductsPage = () => {
 
 const [isOpenCategory, setIsOpenCategory] = useState(false);
 const [isOpenSort, setIsOpenSort] = useState(false);
@@ -37,8 +36,8 @@ const toggleDownSort = () => {
       <div>
           <Container>
               <div className='items-center justify-center flex flex-col my-12'>
-              <h1 className='text-[24px] md:text-[32px] lg:text-[44px] md:font-bold font-poppins font-semibold'>Sitting Room</h1>
-              <p className='text-[#737b90] text-[14px] md:text-[18px] lg:text-[22px] text-center mt-6'>"Transform your sitting room with our elegant and functional seating options, perfect for every modern home."</p>
+              <h1 className='text-[24px] md:text-[32px] lg:text-[44px] md:font-bold font-poppins font-semibold'>Our Products</h1>
+              <p className='text-[#737b90] text-[14px] md:text-[18px] lg:text-[22px] text-center mt-6'>"Explore furniture that harmoniously combines style and comfort to elevate your home."</p>
               
               <div className='py-4 px-5 border border-[#c0c0c2] w-[353px] md:w-[738px] lg:w-[642px] rounded-[24px] mt-8 flex flex-row'>
                       <input type="text" placeholder='Search by name or category...'
@@ -46,46 +45,14 @@ const toggleDownSort = () => {
                       <FiSearch className='w-6 h-6'/>
               </div>
               </div>
-
-    {/* Product names */}
-    <div className="overflow-hidden w-full overflow-x-scroll scrollbar-hide scroll-smooth lg:text-[20px]">
-       <div className="flex flex-row gap-6 my-[10px]  whitespace-nowrap lg:mt-[80px] lg:mb-12 ">
-    <div className="py-[18px] px-8  lg:py-[20px] lg:px-10  bg-[#7c71df] text-white font-bold rounded-full flex justify-center items-center">
-      All
-    </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[100px]">
-      Sofa
-    </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Accent chair
-  </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Lounge chair
-    </div>
-                      
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Coffee table
-    </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Center table
-    </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Flower pot
-    </div>
-    <div className="py-[18px] px-8 bg-[#f8f7fb] font-bold rounded-full flex justify-center items-center w-[162px]">
-      Lamp
-    </div>
-  </div>
-</div>
               
 
 {/*Sorting */}
-<div className='flex flex-col mt-8 md:mt-12 md:flex-row md:justify-between md:items-baseline'>
-    <h1 className='text-[20px] md:text-[32px] lg:text-[44px] font-bold'>Top Products</h1>
-            <div className='flex flex-row my-3 justify-between md:gap-4'>
+<div className='flex flex-row mt-8 md:mt-12 justify-between'>
+            <div className='flex flex-row my-3 w-full justify-between'>
             
              {/* Sorting by Category */}
-            <div className="w-[160px] lg:w-[200px] md:w-[180px] relative">
+            <div className="w-[160px] lg:w-[200px] md:w-[180px] relative ">
             <button
               onClick={toggleDownCategory}
                 className="border border-[#D0D0D0] rounded-[8px] w-full py-[4px] pl-[13px] pr-[7px] 
@@ -142,7 +109,7 @@ const toggleDownSort = () => {
             <button
               onClick={toggleDownSort}
               className="border border-[#D0D0D0] rounded-[8px] w-full py-[4px] pl-[13px] pr-[7px] 
-             md:py-[5px] md:pl-[14px] md:pr-[8px] lg:py-[6px] lg:pl-[15px] lg:pr-[9px] flex justify-between items-center drop-shadow"
+              md:py-[5px] md:pl-[14px] md:pr-[8px] lg:py-[7px] lg:pl-[16px] lg:pr-[10px] flex justify-between items-center drop-shadow"
             >
               <h2 className="text-[14px] md:text-[16px] lg:text-[20px] text-[#212121E5]">Sort By</h2>
               {isOpenSort ? <IoChevronDown /> : <IoChevronUp />}
@@ -216,13 +183,9 @@ const toggleDownSort = () => {
           </div>
 
               
-        {/* People also viewed */}
-         <PeopleAlsoViewed/>
-
-              
           </Container>
     </div>
   )
 }
 
-export default SittingRoomPage
+export default AllProductsPage
