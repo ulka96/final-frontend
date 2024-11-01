@@ -5,16 +5,21 @@ import sofa2 from "../../../assets/home/sofa2.png"
 // react icons
 import { CiHeart } from "react-icons/ci";
 import { PiShoppingCart } from "react-icons/pi";
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const SingleProduct = () => {
+
+const {productId} = useParams()
     return (
         <div>
             
        
             <div className="justify-center items-center relative w-[164px] h-[173px] lg:w-[296px] lg:h-[313px] md:w-[343px] md:h-[343px] bg-[#f3f4f7] overflow-hidden  hover:drop-shadow-lg">
-                <div className="absolute inset-0 transform transition-transform duration-1000 ease-in-out hover:scale-110 ">
+                <Link to={`/products/${productId}`}><div className="absolute inset-0 transform transition-transform duration-1000 ease-in-out hover:scale-110 ">
                     <img src={sofa2} alt="sofa2" className="w-full h-full object-cover" />
                 </div>
+                </Link>
         <div className='py-[8px] px-[6px] lg:py-[12px] lg:px-[10px] md:py-[12px] md:px-[10px]  ml-2 rounded-full bg-[#2ec1ac] absolute top-2 right-2 md:top-3 md:right-3 lg:top-4 lg:right-4'>
               <p className='text-white text-[8px] lg:text-[11px] md:text-[10px]'>New</p>
         </div> 

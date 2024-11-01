@@ -12,6 +12,7 @@ import KitchenPage from './pages/kitchen/page.jsx';
 import AccessoriesPage from './pages/accessories/page.jsx';
 import AllProductsPage from './pages/allProducts/page.jsx';
 import ProductDetailsPage from './pages/productDetails/page.jsx';
+import CartPage from './pages/cart/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +32,15 @@ const router = createBrowserRouter([
         element: <SignUpPage/>
       },
       {
-        path: '/all-products',
+        path: '/cart',
+        element: <CartPage/>
+      },
+      {
+        path: '/products',
         element: <AllProductsPage/>
       },
       {
-        path: '/all-products/:productId',
+        path: '/products/:productId',
         element: <ProductDetailsPage/>
       },
       {

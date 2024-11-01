@@ -7,6 +7,7 @@ import new2 from "../../../assets/home/new2.png"
 import new3 from "../../../assets/home/new3.png"
 import new4 from "../../../assets/home/new4.png"
 import new5 from "../../../assets/home/new5.png"
+import { Link } from 'react-router-dom'
 
 const slides = [
     {
@@ -92,7 +93,7 @@ const Hero = () => {
         <button className="relative mb-24 md:mb-40 lg:-mb-48 inline-block py-1 px-3 lg:px-6 lg:py-3 md:px-4 md:py-2 md:mt-3 lg:mt-4 mt-3 text-xs lg:text-sm font-semibold uppercase transition-all duration-300 group bg-gradient-to-r from-[#a07822] to-[#C4932C] hover:from-[#C4932C] hover:to-[#a07822] rounded-full text-white">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
           </span>
-          Shop Now
+          <Link to="/products">Shop Now</Link>
             </button>
           </div>
         </Container>  

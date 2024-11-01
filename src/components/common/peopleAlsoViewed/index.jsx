@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 // Components
 import SingleProduct from '../../home/singleProduct'
-import Container from '../containerClass'
+
 
 // React icons
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
@@ -43,10 +43,10 @@ const PeopleAlsoViewed = () => {
         }
       }
     };
-
+    
     return (
-   
-    <div className="mx-auto relative w-full max-w-[380px] md:max-w-[730px] lg:max-w-[1280px] my-16 md:my-24 lg:my-36">
+    
+    <div className="mx-auto relative w-full max-w-[380px] md:max-w-[730px] lg:max-w-[1280px]  my-16 md:my-24 lg:my-36">
       <div>
         <h1 className="text-[18px] md:text-[32px] lg:text-[38px] font-bold mb-6 text-start">People Also Viewed</h1>
       </div>
@@ -83,7 +83,7 @@ const PeopleAlsoViewed = () => {
         </button>
       </div>
     </div>
-   
+  
   )
 }
 
