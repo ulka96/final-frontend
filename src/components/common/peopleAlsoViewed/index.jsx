@@ -13,8 +13,7 @@ const PeopleAlsoViewed = () => {
 
     const scrollLeft = () => {
       if (sliderRef.current) {
-        const scrollAmount = 300; // Adjust scroll distance as needed
-        // If scrolled to the very beginning, reset to the end
+        const scrollAmount = 300; 
         if (sliderRef.current.scrollLeft <= 0) {
           sliderRef.current.scrollLeft = sliderRef.current.scrollWidth;
         } else {
@@ -28,8 +27,7 @@ const PeopleAlsoViewed = () => {
   
     const scrollRight = () => {
       if (sliderRef.current) {
-        const scrollAmount = 300; // Adjust scroll distance as needed
-        // If scrolled to the very end, reset to the beginning
+        const scrollAmount = 300;
         if (
           sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
           sliderRef.current.scrollWidth
@@ -63,7 +61,7 @@ const PeopleAlsoViewed = () => {
         <div
           ref={sliderRef}
           className="flex overflow-x-scroll scroll-smooth space-x-4  scrollbar-hide w-full"
-          style={{ scrollBehavior: 'smooth' }} // Smooth scroll for non-Tailwind-compatible CSS
+          style={{ scrollBehavior: 'smooth' }} 
         >
           <SingleProduct />
           <SingleProduct />
@@ -72,7 +70,7 @@ const PeopleAlsoViewed = () => {
           <SingleProduct />
           <SingleProduct />
           <SingleProduct />
-          {/* Add more <SingleProduct /> components as needed */}
+     
         </div>
 
         {/* Right Arrow */}

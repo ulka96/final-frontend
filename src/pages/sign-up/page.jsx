@@ -56,7 +56,7 @@ const handleCreateAccountClick = () => {
                       
                         <div className='flex flex-row gap-3 justify-center ml-4 md:ml-0 md:mr-7'>
                           <div><input type="checkbox" className='w-4 h-4 mt-8 mb-6'/></div>
-                          <p className='text-[#5f6980] text-[15px] w-[280px] mt-6 mb-6 '>I agree to the Terms and Conditions of Furniture and acknowledge the Privacy Policy</p>
+                          <p className='text-[#5f6980] text-[15px] w-[280px] mt-6 mb-6 '>I agree to the <Link className='underline'>Terms and Conditions of Furniture</Link> and acknowledge the <Link className='underline'>Privacy Policy</Link></p>
                       </div>
                         
                       <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>

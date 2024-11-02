@@ -19,6 +19,7 @@ import logo from "../../../../src/assets/layout/Oasis.png"
 import CartPage from '../../../pages/cart/page';
 import SignInPage from '../../../pages/sign-in/page';
 import SignUpPage from '../../../pages/sign-up/page';
+import WishlistPage from '../../../pages/wishlist/page';
 
 
 
@@ -31,6 +32,7 @@ const Header = () => {
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
+
 
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
@@ -65,7 +67,8 @@ const toggleSignUp = () => {
     },
     {
       "id": "4",
-      "title": "Blog"
+      "title": "Blog",
+      "href": "/blog"
   }
 ]  
   return (
@@ -79,7 +82,7 @@ const toggleSignUp = () => {
           <ul className='hidden lg:flex lg:gap-10 lg:text-[14px] lg:font-semibold '>
           {
             navElements && navElements.map((elem) => {
-              return <Link
+              return <Link to={elem.href}
                 className="hover:text-gray-400 transition duration-200">
                 <li key={elem.id}>{elem.title}</li>
               </Link>
@@ -90,7 +93,7 @@ const toggleSignUp = () => {
           <div className='lg:flex gap-[30px] hidden md:hidden '>
 
             <div className='p-[19px] rounded-full bg-[#f8f7fb]'>
-              <CiHeart className='w-6 h-6 text-[#5e4fa8]'/>
+              <Link to="/wishlist"><CiHeart className='w-6 h-6 text-[#5e4fa8]'/></Link>
             </div>
 
             <div className='p-[19px] rounded-full bg-[#f8f7fb] relative'>
@@ -133,7 +136,7 @@ const toggleSignUp = () => {
               <span className='text-gray-600'>Profile</span>
             </li>
             <Link  onClick={toggleCart} className='hover:text-gray-900 transition duration-200'>My Orders</Link>
-            <Link className='hover:text-gray-900 transition duration-200'>My Favourites</Link>
+            <Link to="/wishlist" className='hover:text-gray-900 transition duration-200'>My Favourites</Link>
             {navElements.map((elem) => (
               <Link key={elem.id} className='hover:text-gray-900 transition duration-200'>
                 <Link to={elem.href}><li>{elem.title}</li></Link>
@@ -146,7 +149,7 @@ const toggleSignUp = () => {
          {isCartOpen && <CartPage closeCart={toggleCart} />} 
         {isLoginOpen && <SignInPage closeLogin={toggleLogin} toggleSignUp={toggleSignUp} />}
         {isSignUpOpen && <SignUpPage closeSignUp={toggleSignUp} closeLogin={toggleLogin}/>}
-    
+  
       </div>
       
     </Container>

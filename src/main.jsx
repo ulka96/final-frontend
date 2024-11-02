@@ -13,6 +13,8 @@ import AccessoriesPage from './pages/accessories/page.jsx';
 import AllProductsPage from './pages/allProducts/page.jsx';
 import ProductDetailsPage from './pages/productDetails/page.jsx';
 import CartPage from './pages/cart/page.jsx';
+import WishlistPage from './pages/wishlist/page.jsx';
+import BlogPage from './pages/blog/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,14 @@ const router = createBrowserRouter([
       {
         path: '/accessories',
         element: <AccessoriesPage/>
+      },
+      {
+        path: '/wishlist',
+        element: <WishlistPage/>
+      },
+      {
+        path: '/blog',
+        element: <BlogPage/>
       },
     ]
   }
