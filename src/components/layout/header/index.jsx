@@ -18,6 +18,7 @@ import Container from "../../common/containerClass/index"
 import logo from "../../../../src/assets/layout/Oasis.png"
 import CartPage from '../../../pages/cart/page';
 import SignInPage from '../../../pages/sign-in/page';
+import SignUpPage from '../../../pages/sign-up/page';
 
 
 
@@ -38,6 +39,12 @@ const Header = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+
+const toggleSignUp = () => {
+  setIsSignUpOpen(!isSignUpOpen);
   };
 
 
@@ -132,12 +139,13 @@ const Header = () => {
                 <Link to={elem.href}><li>{elem.title}</li></Link>
               </Link>
             ))}
-            <Link className='hover:text-gray-900 transition duration-200'>Logout</Link>
+            <Link className='hover:text-gray-900 transition duration-200'><button onClick={toggleLogin}>Login</button></Link>
           </ul>
         )}
 
          {isCartOpen && <CartPage closeCart={toggleCart} />} 
-        {isLoginOpen && <SignInPage closeLogin={toggleLogin} />}
+        {isLoginOpen && <SignInPage closeLogin={toggleLogin} toggleSignUp={toggleSignUp} />}
+        {isSignUpOpen && <SignUpPage closeSignUp={toggleSignUp} closeLogin={toggleLogin}/>}
     
       </div>
       
