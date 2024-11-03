@@ -73,13 +73,13 @@ const toggleSignUp = () => {
 ]  
   return (
     <Container>
-      <div className='mt-[11px]'>
+      <div className='mt-[15px]'>
         <div className='flex justify-between items-center'>
         <div>
            <img src={logo} alt="logo" className='w-[80px] h-[30px]' />
           </div>
 
-          <ul className='hidden lg:flex lg:gap-10 lg:text-[14px] lg:font-semibold '>
+          <ul className='hidden lg:flex lg:gap-10 lg:text-[18px] lg:font-semibold '>
           {
             navElements && navElements.map((elem) => {
               return <Link to={elem.href}

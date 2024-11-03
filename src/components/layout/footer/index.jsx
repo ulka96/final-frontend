@@ -13,9 +13,9 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
 
-    <div className=''>
+    <div className='mb-16'>
       <Container>
-      <div className='border border-[#b4b3b3] w-full my-4'></div>
+      <div className='border border-[#b4b3b3] w-full my-4 '></div>
         <div className='flex flex-col lg:flex-row lg:w-full lg:gap-20'>
             <div className='flex flex-col gap-4'>
             <div>
