@@ -16,6 +16,10 @@ import CartPage from './pages/cart/page.jsx';
 import WishlistPage from './pages/wishlist/page.jsx';
 import BlogPage from './pages/blog/page.jsx';
 import BlogDetailsPage from './pages/blogDetails/page.jsx';
+import EmptyCartPage from './pages/emptyCart/page.jsx';
+import ConfirmedOrderPage from './pages/confirmedOrder/page.jsx';
+import CheckoutPage from './pages/checkOut/page.jsx';
+import PaymentPage from './pages/payment/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +78,15 @@ const router = createBrowserRouter([
         path: '/blog/:blogId',
         element: <BlogDetailsPage/>
       },
+      {
+        path: '/checkout',
+        element: <CheckoutPage/>
+      },
+      {
+        path: '/payment',
+        element: <PaymentPage/>
+      },
+
     ]
   }
 ]);

@@ -20,6 +20,9 @@ import CartPage from '../../../pages/cart/page';
 import SignInPage from '../../../pages/sign-in/page';
 import SignUpPage from '../../../pages/sign-up/page';
 import WishlistPage from '../../../pages/wishlist/page';
+import EmptyCartPage from '../../../pages/emptyCart/page';
+import CheckoutPage from '../../../pages/checkOut/page';
+import PaymentPage from '../../../pages/payment/page';
 
 
 
@@ -27,12 +30,26 @@ const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isEmptyCartOpen, setIsEmptyCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
 
+  const toggleEmptyCart = () => {
+    setIsEmptyCartOpen(!isEmptyCartOpen);
+  };
+
+  const toggleCheckout = () => {
+    setIsCheckoutOpen(!isCheckoutOpen);
+  };
+
+  const togglePayment = () => {
+    setIsPaymentOpen(!isPaymentOpen);
+  };
 
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
@@ -146,14 +163,18 @@ const toggleSignUp = () => {
           </ul>
         )}
 
-         {isCartOpen && <CartPage closeCart={toggleCart} />} 
+        {isCartOpen && <CartPage closeCart={toggleCart} openCheckout={toggleCheckout} />} 
+        {isEmptyCartOpen && <EmptyCartPage closeEmptyCart={toggleEmptyCart} />}
+        {isCheckoutOpen && <CheckoutPage closeCheckoutCart={toggleCheckout} openPayment={togglePayment} />}
+        {isPaymentOpen && <PaymentPage closePayment={togglePayment} />}
+        
         {isLoginOpen && <SignInPage closeLogin={toggleLogin} toggleSignUp={toggleSignUp} />}
         {isSignUpOpen && <SignUpPage closeSignUp={toggleSignUp} closeLogin={toggleLogin}/>}
   
       </div>
       
     </Container>
-    
+     
   )
 }
 
