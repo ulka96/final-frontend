@@ -15,6 +15,7 @@ import ProductDetailsPage from './pages/productDetails/page.jsx';
 import CartPage from './pages/cart/page.jsx';
 import WishlistPage from './pages/wishlist/page.jsx';
 import BlogPage from './pages/blog/page.jsx';
+import BlogDetailsPage from './pages/blogDetails/page.jsx';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: '/blog',
         element: <BlogPage/>
+      },
+      {
+        path: '/blog/:blogId',
+        element: <BlogDetailsPage/>
       },
     ]
   }
