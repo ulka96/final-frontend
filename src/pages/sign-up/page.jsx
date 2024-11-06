@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Container from "../../components/common/containerClass/index"
@@ -6,8 +7,7 @@ import { IoClose } from "react-icons/io5";
 
 // Images
 import nightstand from "../../assets/register/nightstand.png"
-import google from "../../assets/register/google.png"
-import apple from "../../assets/register/apple.png"
+
 
 
 const SignUpPage = (props) => {
@@ -16,6 +16,54 @@ const handleCreateAccountClick = () => {
     props.closeSignUp();
     props.closeLogin();
   };
+
+  // States
+  const [imageUrl, setImageUrl] = useState(null)
+
+  // Refs
+  const emailRef = useRef()
+  const usernameRef = useRef()
+  const passwordRef = useRef()
+  const fileInputRef = useRef()
+
+  // Event handlers
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setImageUrl(URL.createObjectURL(file))
+    } 
+  }
+
+  const handleSubmit = async(event) => {
+    event.preventDefault()
+
+    const email = emailRef.current.value.trim()
+    const userName = usernameRef.current.value.trim()
+    const password = passwordRef.current.value.trim()
+
+    const formData = new FormData()
+    formData.append("email", email)
+    formData.append("userName", userName)
+    formData.append("password", password)
+
+    const file = fileInputRef.current.files[0]
+
+    if (file) {
+      formData.append("profilePic", file)
+    }
+
+    const response = await fetch("http://localhost:3000/api/auth/sign-up", {
+      method: "POST",
+      body: formData,
+      credentials: "include"
+    })
+
+    const data = await response.json()
+    console.log(response)
+    console.log(data)
+
+    
+  }
 
   return (
       <div>
@@ -47,12 +95,29 @@ const handleCreateAccountClick = () => {
                           <img src={nightstand} alt="nightstand" />
                         </div>  
                     <h1 className='lg:text-[23px] md:text-[23px] text-[18px] lg:my-8 md:my-8 mt-4 mb-8 font-semibold'>Let's get your account set up</h1>
-                      <form className='flex flex-col gap-6 lg:w-[353px] md:w-[353px] w-[300px]' >
-                        <input type="email" placeholder='Email' className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                        <input type="text" placeholder='Username' className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                        <input type="password" placeholder='Password' className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                        <input type="file" className='ml-2' />
-                        </form>
+                        <form
+                          onSubmit={handleSubmit}
+                          className='flex flex-col gap-6 lg:w-[353px] md:w-[353px] w-[300px]' >
+                          <input
+                            type="email"
+                            ref={emailRef}
+                            placeholder='Email'
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          <input
+                            type="text"
+                            ref={usernameRef}
+                            placeholder='Username'
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          <input
+                            type="password"
+                            ref={passwordRef}
+                            placeholder='Password'
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            className='ml-2' />
                       
                         <div className='flex flex-row gap-3 justify-center ml-4 md:ml-0 md:mr-7'>
                           <div><input type="checkbox" className='w-4 h-4 mt-8 mb-6'/></div>
@@ -60,8 +125,9 @@ const handleCreateAccountClick = () => {
                       </div>
                         
                       <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>
-                          <button>Create account</button>
+                          <button type='submit'>Create account</button>
                         </div>
+                      </form>
                         
 
                         <div className='flex flex-row gap-1 mb-8'>
