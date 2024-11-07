@@ -8,6 +8,13 @@ import { IoClose } from "react-icons/io5";
 // Images
 import nightstand from "../../assets/register/nightstand.png"
 
+// Redux hooks
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+// Actions
+import { setUser } from '../../slices/user.slice.js';
+
 
 
 const SignUpPage = (props) => {
@@ -16,6 +23,12 @@ const handleCreateAccountClick = () => {
     props.closeSignUp();
     props.closeLogin();
   };
+
+  // Dispatch
+  const dispatch = useDispatch()
+
+  // Navigate
+  const navigate = useNavigate()
 
   // States
   const [imageUrl, setImageUrl] = useState(null)
@@ -40,27 +53,39 @@ const handleCreateAccountClick = () => {
     const email = emailRef.current.value.trim()
     const userName = usernameRef.current.value.trim()
     const password = passwordRef.current.value.trim()
+    const file = fileInputRef.current.files[0]
 
     const formData = new FormData()
     formData.append("email", email)
     formData.append("userName", userName)
     formData.append("password", password)
 
-    const file = fileInputRef.current.files[0]
 
     if (file) {
       formData.append("profilePic", file)
     }
+    
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/sign-up", {
+        method: "POST",
+        body: formData,
+        credentials: "include"
+      })
 
-    const response = await fetch("http://localhost:3000/api/auth/sign-up", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-    })
+      const data = await response.json()
 
-    const data = await response.json()
-    console.log(response)
-    console.log(data)
+      console.log(data)
+      console.log(response)
+     
+      if (response.ok) {
+        dispatch(setUser(data.user))
+        navigate("/")
+      } else {
+        console.error("Error response:", data);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
 
     
   }
@@ -95,6 +120,7 @@ const handleCreateAccountClick = () => {
                           <img src={nightstand} alt="nightstand" />
                         </div>  
                     <h1 className='lg:text-[23px] md:text-[23px] text-[18px] lg:my-8 md:my-8 mt-4 mb-8 font-semibold'>Let's get your account set up</h1>
+                        
                         <form
                           onSubmit={handleSubmit}
                           className='flex flex-col gap-6 lg:w-[353px] md:w-[353px] w-[300px]' >
@@ -125,7 +151,9 @@ const handleCreateAccountClick = () => {
                       </div>
                         
                       <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>
-                          <button type='submit'>Create account</button>
+                            <button
+                              // onClick={props.closeSignUp}
+                              type='submit' className='outline-none'>Create account</button>
                         </div>
                       </form>
                         

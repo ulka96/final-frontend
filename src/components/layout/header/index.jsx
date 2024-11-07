@@ -3,6 +3,10 @@ import React, { useState } from 'react'
 // React router
 import { Link } from 'react-router-dom';
 
+// Redux hooks
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from "../../../slices/auth.slice.js"
+
 // React icons
 import { HiMiniBars3 } from "react-icons/hi2";
 import { HiX } from "react-icons/hi";
@@ -34,6 +38,7 @@ const Header = () => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -60,9 +65,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-const toggleSignUp = () => {
+ const toggleSignUp = () => {
   setIsSignUpOpen(!isSignUpOpen);
   };
 
@@ -87,7 +91,36 @@ const toggleSignUp = () => {
       "title": "Blog",
       "href": "/blog"
   }
-]  
+  ]  
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  const user = useSelector((state) => state.user.user)
+
+  console.log(user)
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/log-out', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: "include"
+      });
+
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+ 
+      dispatch(logout());
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+  console.log('isLoggedIn:', isLoggedIn);
+  
+
   return (
     <Container>
       <div className='mt-[15px]'>
@@ -149,7 +182,14 @@ const toggleSignUp = () => {
                 {isMenuOpen && (
           <ul className='lg:hidden  flex flex-col z-10  md:z-10 gap-4 mt-4 p-6 text-[14px] absolute right-5 top-[70px] bg-white shadow-lg rounded-lg border border-gray-200 text-gray-700'>
             <li className='flex items-center gap-2 mb-3'>
-              <CgProfile className='w-6 h-6 text-gray-500' />
+            <img
+              src={`http://localhost:3000/ProfilePictures/${user.profilePic}`}
+              alt="profile"
+              className="w-4 h-4"
+            />
+              <div>Welcome, {user.userName}</div>
+              {/* <CgProfile className='w-6 h-6 text-gray-500' /> */}
+
               <span className='text-gray-600'>Profile</span>
             </li>
             <Link  onClick={toggleCart} className='hover:text-gray-900 transition duration-200'>My Orders</Link>
@@ -159,7 +199,10 @@ const toggleSignUp = () => {
                 <Link to={elem.href}><li>{elem.title}</li></Link>
               </Link>
             ))}
-            <Link className='hover:text-gray-900 transition duration-200'><button onClick={toggleLogin}>Login</button></Link>
+            {!isLoggedIn && <Link className='hover:text-gray-900 transition duration-200'><button onClick={toggleLogin}>Login</button></Link>}
+             {isLoggedIn && <button onClick={handleLogout} className='hover:text-gray-900 transition duration-200 mr-10'>
+              Logout
+            </button> }
           </ul>
         )}
 

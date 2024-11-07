@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 import Container from "../../components/common/containerClass/index"
@@ -9,6 +9,14 @@ import plant from "../../assets/register/plant.png"
 import google from "../../assets/register/google.png"
 import apple from "../../assets/register/apple.png"
 
+// Redux hooks
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+// Actions
+import { setUser } from '../../slices/user.slice.js';
+import {login} from "../../slices/auth.slice.js"
+
 
 const SignInPage = (props) => {
 
@@ -16,6 +24,53 @@ const handleCreateAccountClick = () => {
     props.closeLogin();
     props.toggleSignUp();
   };
+
+// Refs
+const usernameRef = useRef()
+const passwordRef = useRef()
+  
+// Dispatch
+const dispatch = useDispatch()
+
+// Navigate
+const navigate = useNavigate()
+
+  const handleLogin = async(event) => {
+    event.preventDefault()
+    
+    const userName = usernameRef.current.value.trim()
+    const password = passwordRef.current.value.trim()
+
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({userName, password}),
+        credentials: "include"
+      })
+
+      const data = await response.json()
+
+      console.log(data)
+      console.log(response)
+     
+      if (response.ok) {
+        dispatch(setUser(data.user))
+        dispatch(login(data.user))
+        
+        navigate("/")
+        props.closeLogin()
+      } else {
+        console.error("Error response:", data);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+
+}
 
   
   return (
@@ -48,16 +103,28 @@ const handleCreateAccountClick = () => {
                           <img src={plant} alt="plant" />
                         </div>  
                     <h1 className='lg:text-[23px] md:text-[23px] text-[18px] lg:my-8 md:my-8 mt-4 mb-8 font-semibold'>Welcome back</h1>
-                      <form className='flex flex-col gap-6 lg:w-[353px] md:w-[353px] w-[300px]' >
-                        <input type="text" placeholder='Username' className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                        <input type="password" placeholder='Password' className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                      
+                        <form
+                          onSubmit={handleLogin}
+                          className='flex flex-col gap-6 lg:w-[359px] md:w-[353px] w-[300px]' >
+                          <input
+                            ref={usernameRef}
+                            type="text"
+                            placeholder='Username'
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          <input
+                            ref={passwordRef}
+                            type="password"
+                            placeholder='Password'
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                    <p className='text-[#7c71df] my-6 lg:ml-56 md:ml-56 ml-36 font-semibold'>Forgot password ?</p>
+                      <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>
+                            <button
+                              type='submit'>Login</button>
+                      </div>
                         </form>
                       
-                    <Link><p className='text-[#7c71df] my-6 lg:ml-56 md:ml-56 ml-36 font-semibold'>Forgot password ?</p></Link>
 
-                      <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>
-                          <button>Login</button>
-                        </div>
                         
                         <div className='flex flex-row items-center'>
                          <div className='border border-[#afb4bf] lg:w-[145px] md:w-[145px] w-[100px] h-0'></div>

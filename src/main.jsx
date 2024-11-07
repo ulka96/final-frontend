@@ -21,6 +21,9 @@ import ConfirmedOrderPage from './pages/confirmedOrder/page.jsx';
 import CheckoutPage from './pages/checkOut/page.jsx';
 import PaymentPage from './pages/payment/page.jsx';
 
+import { Provider } from 'react-redux';
+import store from './store/store.js';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -93,6 +96,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      </Provider>
   </React.StrictMode>
 );
