@@ -14,8 +14,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // Actions
-import { setUser } from '../../slices/user.slice.js';
-import {login} from "../../slices/auth.slice.js"
+
+import {login, setUser} from "../../slices/auth.slice.js"
 
 
 const SignInPage = (props) => {
@@ -117,7 +117,7 @@ const navigate = useNavigate()
                             type="password"
                             placeholder='Password'
                             className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                    <p className='text-[#7c71df] my-6 lg:ml-56 md:ml-56 ml-36 font-semibold'>Forgot password ?</p>
+                    <p className='text-[#7c71df] my-6 lg:ml-56 md:ml-52 ml-36 font-semibold'>Forgot password ?</p>
                       <div className='flex lg:w-[353px] md:w-[353px] w-[300px] mb-8 items-center justify-center rounded-3xl border border-transparent bg-[#7c71df] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-60 duration-200'>
                             <button
                               type='submit'>Login</button>

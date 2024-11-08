@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // Actions
-import { setUser } from '../../slices/user.slice.js';
+import { login, setUser } from '../../slices/auth.slice.js';
 
 
 
@@ -79,6 +79,7 @@ const handleCreateAccountClick = () => {
      
       if (response.ok) {
         dispatch(setUser(data.user))
+        dispatch(login(data.user))
         navigate("/")
       } else {
         console.error("Error response:", data);

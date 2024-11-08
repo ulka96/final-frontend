@@ -5,8 +5,10 @@ import Footer from './components/layout/footer/index';
 
 const App = () => {
   const location = useLocation();
+  
 
   return (
+
     <div>
       <Header />
       <Outlet />

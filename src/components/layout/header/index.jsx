@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 // Redux hooks
 import { useSelector, useDispatch } from 'react-redux';
-import { login, logout } from "../../../slices/auth.slice.js"
+import { login, logout,setUser } from "../../../slices/auth.slice.js"
 
 // React icons
 import { HiMiniBars3 } from "react-icons/hi2";
@@ -94,7 +94,7 @@ const Header = () => {
   ]  
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.auth.user)
 
   console.log(user)
   const dispatch = useDispatch();
@@ -108,18 +108,20 @@ const Header = () => {
         },
         credentials: "include"
       });
+      const data = await response.json()
 
       if (!response.ok) {
         throw new Error('Logout failed');
       }
  
       dispatch(logout());
-    } catch (error) {
+    } catch(error) {
       console.error('Error during logout:', error);
     }
+    
   };
-  console.log('isLoggedIn:', isLoggedIn);
-  
+
+
 
   return (
     <Container>
@@ -154,14 +156,31 @@ const Header = () => {
 
             <div className='py-4 px-5 rounded-full bg-[#7c71df] items-center justify-center my-auto'>
                 <Link className='flex gap-3 items-center justify-center'>
-                  <button onClick={toggleLogin}><p className='text-[16px] font-semibold text-white'>Get Started</p></button>
+                {!isLoggedIn ? <button onClick={toggleLogin}>
+                  <p className='text-[16px] font-semibold text-white'>Get Started</p>
+                </button> : <button onClick={handleLogout}>
+                  <p className='text-[16px] font-semibold text-white'>Logout</p>
+                </button> }
                   <LiaLongArrowAltRightSolid className='w-6 h-6 text-white'/>
                 </Link>
             </div>
 
-            <div className='lg:flex items-center hidden md:hidden '>
-            <CgProfile className='w-11 h-11 text-gray-500 ' />
-            </div>
+            {isLoggedIn ? (
+        <>
+          <img
+            src={`http://localhost:3000/${user?.profilePic}`}
+            alt="profile"
+            className="w-11 h-11 rounded-full mt-3"
+          />
+          <div className="mt-5 font-semibold">Welcome, {user?.userName}</div>
+        </>
+      ) : (
+        <div className='lg:flex items-center hidden md:hidden '>
+        <CgProfile className='w-11 h-11 text-gray-500 ' />
+        </div>
+      )}
+
+
 
           </div>
 
@@ -182,25 +201,38 @@ const Header = () => {
                 {isMenuOpen && (
           <ul className='lg:hidden  flex flex-col z-10  md:z-10 gap-4 mt-4 p-6 text-[14px] absolute right-5 top-[70px] bg-white shadow-lg rounded-lg border border-gray-200 text-gray-700'>
             <li className='flex items-center gap-2 mb-3'>
-            <img
-              src={`http://localhost:3000/ProfilePictures/${user.profilePic}`}
-              alt="profile"
-              className="w-4 h-4"
-            />
-              <div>Welcome, {user.userName}</div>
-              {/* <CgProfile className='w-6 h-6 text-gray-500' /> */}
+            {isLoggedIn ? (
+        <>
+          <img
+            src={`http://localhost:3000/${user?.profilePic}`}
+            alt="profile"
+            className="w-6 h-6 rounded-full"
+          />
+          <div>Welcome, {user?.userName}</div>
+        </>
+      ) : (
+        <CgProfile className="w-6 h-6 text-gray-500" />
+      )}
+              
 
-              <span className='text-gray-600'>Profile</span>
+              {!isLoggedIn && <span className='text-gray-600'>Profile</span>}
             </li>
-            <Link  onClick={toggleCart} className='hover:text-gray-900 transition duration-200'>My Orders</Link>
-            <Link to="/wishlist" className='hover:text-gray-900 transition duration-200'>My Favourites</Link>
+            {isLoggedIn && <Link
+              onClick={toggleCart}
+              className='hover:text-gray-900 transition duration-200'>
+              My Orders</Link>}
+            {isLoggedIn && <Link
+              to="/wishlist"
+              className='hover:text-gray-900 transition duration-200'>
+              My Favourites
+            </Link>}
             {navElements.map((elem) => (
               <Link key={elem.id} className='hover:text-gray-900 transition duration-200'>
                 <Link to={elem.href}><li>{elem.title}</li></Link>
               </Link>
             ))}
             {!isLoggedIn && <Link className='hover:text-gray-900 transition duration-200'><button onClick={toggleLogin}>Login</button></Link>}
-             {isLoggedIn && <button onClick={handleLogout} className='hover:text-gray-900 transition duration-200 mr-10'>
+             {isLoggedIn && <button onClick={handleLogout} className='hover:text-gray-900 transition duration-200 mr-36'>
               Logout
             </button> }
           </ul>
