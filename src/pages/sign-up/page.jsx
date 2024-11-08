@@ -32,6 +32,8 @@ const handleCreateAccountClick = () => {
 
   // States
   const [imageUrl, setImageUrl] = useState(null)
+  const [emailError, setEmailError] = useState("")
+  const[passwordError, setPasswordError]= useState("")
 
   // Refs
   const emailRef = useRef()
@@ -54,6 +56,29 @@ const handleCreateAccountClick = () => {
     const userName = usernameRef.current.value.trim()
     const password = passwordRef.current.value.trim()
     const file = fileInputRef.current.files[0]
+    
+    let hasError = false;
+
+  // Check valid email
+  if (!email.includes("@")) {
+    setEmailError("Not a valid email");
+    hasError = true;
+  } else {
+    setEmailError("");
+  }
+
+  // Check password length
+  if (password.length < 5) {
+    setPasswordError("Weak password");
+    hasError = true;
+  } else {
+    setPasswordError("");
+  }
+
+  // Stop form submission if there are errors
+  if (hasError) {
+    return;
+  }
 
     const formData = new FormData()
     formData.append("email", email)
@@ -81,6 +106,7 @@ const handleCreateAccountClick = () => {
         dispatch(setUser(data.user))
         dispatch(login(data.user))
         navigate("/")
+        props.closeSignUp()
       } else {
         console.error("Error response:", data);
       }
@@ -126,10 +152,14 @@ const handleCreateAccountClick = () => {
                           onSubmit={handleSubmit}
                           className='flex flex-col gap-6 lg:w-[353px] md:w-[353px] w-[300px]' >
                           <input
-                            type="email"
+                            type="text"
+                            name='email'
+                            id="email"
                             ref={emailRef}
                             placeholder='Email'
-                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 
+                            border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          {emailError && <p>{ emailError}</p>}
                           <input
                             type="text"
                             ref={usernameRef}
@@ -139,7 +169,9 @@ const handleCreateAccountClick = () => {
                             type="password"
                             ref={passwordRef}
                             placeholder='Password'
-                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                            className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 
+                            border hover:border-[#d6bbfb] rounded-xl  outline-none' />
+                          {passwordError && <p>{ passwordError}</p>}
                           <input
                             type="file"
                             ref={fileInputRef}
