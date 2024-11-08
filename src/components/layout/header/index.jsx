@@ -165,20 +165,17 @@ const Header = () => {
                 </Link>
             </div>
 
-            {isLoggedIn ? (
-        <>
-          <img
-            src={`http://localhost:3000/${user?.profilePic}`}
-            alt="profile"
-            className="w-11 h-11 rounded-full mt-3"
-          />
-          <div className="mt-5 font-semibold">Welcome, {user?.userName}</div>
-        </>
-      ) : (
-        <div className='lg:flex items-center hidden md:hidden '>
-        <CgProfile className='w-11 h-11 text-gray-500 ' />
-        </div>
-      )}
+            {isLoggedIn && user.profilePic !== null && <img
+              src={`http://localhost:3000/${user?.profilePic}`}
+              alt="profile"
+              className="w-6 h-6 rounded-full"
+            />}
+    
+    
+       {!isLoggedIn `|| isLoggedIn && user.profilePic === null` && <CgProfile className="w-6 h-6 text-gray-500" />}
+      
+      {isLoggedIn &&  <div>Welcome, {user?.userName}</div>}
+  
 
 
 
