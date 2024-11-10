@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { login, setUser } from '../../slices/auth.slice.js';
 
 
-
 const SignUpPage = (props) => {
 
 const handleCreateAccountClick = () => {
@@ -159,7 +158,7 @@ const handleCreateAccountClick = () => {
                             placeholder='Email'
                             className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 
                             border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                          {emailError && <p>{ emailError}</p>}
+                          {emailError && <p className='ml-2 -mt-3 text-red-700'>{ emailError}</p>}
                           <input
                             type="text"
                             ref={usernameRef}
@@ -171,7 +170,7 @@ const handleCreateAccountClick = () => {
                             placeholder='Password'
                             className='px-[14px] py-[13px] w-full hover:shadow-2xl shadow-[#f4ebff] hover:border-1 
                             border hover:border-[#d6bbfb] rounded-xl  outline-none' />
-                          {passwordError && <p>{ passwordError}</p>}
+                          {passwordError && <p className='ml-2 -mt-3 text-red-700'>{ passwordError}</p>}
                           <input
                             type="file"
                             ref={fileInputRef}

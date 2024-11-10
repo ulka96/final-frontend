@@ -20,6 +20,9 @@ import {login, setUser} from "../../slices/auth.slice.js"
 
 const SignInPage = (props) => {
 
+const [errorMessage, setErrorMessage] = useState("");
+const [showModal, setShowModal] = useState(false);
+
 const handleCreateAccountClick = () => {
     props.closeLogin();
     props.toggleSignUp();
@@ -40,6 +43,13 @@ const navigate = useNavigate()
     
     const userName = usernameRef.current.value.trim()
     const password = passwordRef.current.value.trim()
+
+    // Check for empty fields
+    if (!userName || !password) {
+      setErrorMessage("Please fill all required fields.");
+      setShowModal(true);
+      return;
+    }
 
 
     try {
@@ -65,13 +75,17 @@ const navigate = useNavigate()
         props.closeLogin()
       } else {
         console.error("Error response:", data);
+        setErrorMessage("Wrong username or password.");
+        setShowModal(true);
       }
     } catch (error) {
       console.error("Fetch error:", error);
+      setErrorMessage("An error occurred. Please try again later.");
+      setShowModal(true)
     }
 
 }
-
+const closeModal = () => setShowModal(false);
   
   return (
       <div>
@@ -123,6 +137,20 @@ const navigate = useNavigate()
                               type='submit'>Login</button>
                       </div>
                         </form>
+
+
+                        {/* Modal */}
+                        {showModal && (
+                          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                            <div className="bg-white rounded-lg p-4 max-w-sm w-full">
+                              <h2 className="text-lg font-semibold text-center mb-4">Error</h2>
+                              <p className="text-center text-red-500">{errorMessage}</p>
+                              <button onClick={closeModal} className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       
 
                         
