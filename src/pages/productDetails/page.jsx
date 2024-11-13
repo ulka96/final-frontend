@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 // React icons
 import { FaStar } from "react-icons/fa";
@@ -13,12 +13,36 @@ import leaf from "../../assets/products/Leaf.png"
 import SpecificReviews from '../../components/productDetails/specificReviews';
 import PeopleAlsoViewed from "../../components/common/peopleAlsoViewed/index"
 import Container from '../../components/common/containerClass'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
 const ProductDetailsPage = () => {
+
+  const [productDetail, setProductDetail] = useState(null);  
+  const { productId } = useParams();
+
+  const fetchProductDetails = async () => {
+    try {
+      if (!productId) throw new Error("Product ID is undefined");
+      const response = await fetch(`http://localhost:3000/api/products/${productId}`);
+      const data = await response.json();
+      setProductDetail(data);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductDetails();
+  }, [productId]);
+
+  if (!productDetail) {
+    return <p>Loading...</p>; // Render loading state until data is fetched
+  }
+
+
   return (
       <div>
       <Container>
@@ -26,14 +50,15 @@ const ProductDetailsPage = () => {
         <div className='mt-11 flex flex-col'>
                    
           <div className='flex flex-col md:flex-row md:gap-8 lg:flex-row flex-grow'>
-            <div className='w-[361px] flex-grow lg:w-[100%] lg:h-[380px] md:w-[100%] md:h-[400px] '>
-              <img src={tables} alt="tables"
+            <div className='w-[361px] flex-grow lg:w-[70%] lg:h-[380px] md:w-[100%] md:h-[400px] '>
+              <img src={`http://localhost:3000/${productDetail.productPic}`} 
+                alt={productDetail.title}
                 className='w-full md:h-[300px] lg:h-[400px]' />
               </div>
                   
 
                   <div className='flex flex-col mt-6 md:mt-0 lg:mt-0 w-full flex-grow'>
-                      <h1 className='text-[24px] md:text-[18px] lg:text-[28px] font-bold'>Luxe Armchair - Left Arm Chute</h1>
+                      <h1 className='text-[24px] md:text-[18px] lg:text-[28px] font-bold'>{productDetail.title}</h1>
                     <div className='flex flex-row items-center gap-4 '>
                     <div className="flex flex-row items-center gap-1 ">
                    {stars.map((star) => (
@@ -44,27 +69,35 @@ const ProductDetailsPage = () => {
                       </div>
                       
                       <div className='flex flex-row items-center gap-3 mt-5 md:mt-3'>
-                          <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>$899.00</h1>
-                          <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc] line-through '>$1999.00</h2>
-                          <button className='py-1 px-2 w-[58px] md:w-[50px] lg:w-[62px] bg-[#fddcdf] text-[#f65162] rounded-full'>-40%</button>
+                <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>${productDetail.discountedPrice}</h1>
+                          <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc] line-through '>${productDetail.price}</h2>
+                          {productDetail.discount > 0 && <button className='py-1 px-2 w-[58px] md:w-[50px] lg:w-[62px] bg-[#fddcdf] text-[#f65162] rounded-full'>-{productDetail.discount}%</button>}
                       </div>
 
                       <div>
-                          <p className='text-[#5f6980] text-justify md:text-[16px] lg:text-[18px] md:w-[330px] lg:w-[576px] mt-6 mb-8 md:mt-2 md:mb-3 lg:mt-7'>Ultra-functional and elegantly minimalist, our Luxe Armchair Collection draws inspiration from Nordic-style décor. It features a neutral color palette and natural wood accents, highlighted by uniquely designed hexagonal legs. </p>
+                          <p className='text-[#5f6980] text-justify md:text-[16px] lg:text-[18px] md:w-[330px] lg:w-[576px] mt-6 mb-8 md:mt-2 md:mb-3 lg:mt-7'>{productDetail.description}</p>
                       </div>
 
-                      <ul className='flex flex-row gap-4 '>
-                      <li 
-                      className={`h-10 w-10 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
-                        >
-                       <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl' /></span>
-                      </li>
+                   <ul className='flex flex-row gap-4 '>
+                {
+                  productDetail.color.map((col) => {
+
+                    console.log(col)
+                    return <li 
+                    style={{ backgroundColor: `${col}` }}
+                    className={`h-10 w-10 lg:w-11 lg:h-11 border flex items-center justify-center rounded-full cursor-pointer`}
+                      >
+                     <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl' /></span>
+                    </li>
+                  })
+                      }
+
                           
-                      <li 
+                      {/* <li 
                       className={`h-10 w-10 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
                         >
                        <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl'/></span>
-                          </li>
+                          </li> */}
                       </ul>
 
 

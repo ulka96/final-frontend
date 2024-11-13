@@ -11,7 +11,6 @@ import BedRoomPage from './pages/bedRoom/page.jsx';
 import KitchenPage from './pages/kitchen/page.jsx';
 import AccessoriesPage from './pages/accessories/page.jsx';
 import AllProductsPage from './pages/allProducts/page.jsx';
-import ProductDetailsPage from './pages/productDetails/page.jsx';
 import CartPage from './pages/cart/page.jsx';
 import WishlistPage from './pages/wishlist/page.jsx';
 import BlogPage from './pages/blog/page.jsx';
@@ -23,6 +22,7 @@ import PaymentPage from './pages/payment/page.jsx';
 
 import { Provider } from 'react-redux';
 import store from './store/store.js';
+import ProductDetailsPage from './pages/productDetails/page.jsx';
 
 const router = createBrowserRouter([
   {
