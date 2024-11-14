@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 const SingleCategory = ({ category, categoryId }) => {
     
     const categoryPath = category.title.toLowerCase().replace(' ', '-');
+    
     return (
       <>
       <div className='lg:w-[400px] lg:h-[180px] w-[200px] h-[90px] md:w-[300px] md:h-[130px] bg-[#f6f6f6] rounded-lg relative shrink-0 '>

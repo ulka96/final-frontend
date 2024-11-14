@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from "../../components/common/containerClass/index"
 import blog from "../../assets/blog/blog.png"
 import furniro from "../../assets/blog/furniro.png"
@@ -9,6 +9,20 @@ import SingleBlog from '../../components/blog/singleBlog';
 
 
 const BlogPage = () => {
+
+  const [blogs, setBlogs] = useState([]);
+
+  const fetchBlogs = async() => {
+    const response = await fetch("http://localhost:3000/api/blogs");
+    const data = await response.json();
+    setBlogs(data);
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+
     return (
         <>
             <div
@@ -34,11 +48,13 @@ const BlogPage = () => {
                 <div className='md:grid md:grid-cols-2 md:auto-rows-auto 
                 lg:grid lg:grid-cols-3 lg:auto-rows-auto
                 grid grid-cols-1 auto-rows-auto md:gap-8 '>
-                   
-                    <SingleBlog />
-                    <SingleBlog />
-                    <SingleBlog />
-                    <SingleBlog/>
+            {
+              blogs && blogs.map((blog) => {
+                return <SingleBlog blog={blog} blogId={blog._id} />
+              })
+                   }
+                    
+                 
                 </div>
 
 
