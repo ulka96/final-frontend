@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Container from '../../common/containerClass'
 import SingleProduct from '../singleProduct'
+import { Link } from 'react-router-dom'
 
 
 
@@ -13,7 +14,7 @@ const TopProducts = () => {
     const response = await fetch("http://localhost:3000/api/products")
     const data = await response.json()
 
-    setTopProducts(data)
+    setTopProducts(data.splice(0,4))
   }
 
   useEffect(() => {
@@ -43,7 +44,9 @@ const TopProducts = () => {
           
           <div className='flex justify-center items-center lg:mt-12 md:mt-8 mt-6 mx-auto  lg:py-3 md:py-2 py-1 
           border border-[#b88e2f] md:w-[300px] lg:w-[400px] w-[200px] text-[#b88e2f] hover:shadow-2xl hover:bg-[#b88e2f]  hover:text-white'>
-            <button className='lg:text-[18px] md:text-[16px] text-[14px] font-bold '>Show all</button>
+            <Link to="/products">
+              <button className='lg:text-[18px] md:text-[16px] text-[14px] font-bold '>Show all</button>
+              </Link>
           </div>
                   
                   

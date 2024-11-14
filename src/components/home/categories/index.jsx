@@ -26,7 +26,7 @@ const fetchCategories = async() => {
                   <div className='gap-6 flex flex-row overflow-x-scroll scrollbar-hide scroll-smooth'>
             {
               categories && categories.map((category) => {
-                return <SingleCategory key={category._id} category={category} />
+                return <SingleCategory key={category._id} category={category} categoryId = {category._id} />
               })
                       }
             

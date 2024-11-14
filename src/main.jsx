@@ -23,6 +23,9 @@ import PaymentPage from './pages/payment/page.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store.js';
 import ProductDetailsPage from './pages/productDetails/page.jsx';
+import NewArrivals from './components/common/peopleAlsoViewed/index.jsx';
+import NewArrivalsDetailsPage from './pages/newArrivalsDetails/page.jsx';
+import Categories from './components/home/categories/index.jsx';
 
 const router = createBrowserRouter([
   {
@@ -88,6 +91,18 @@ const router = createBrowserRouter([
       {
         path: '/payment',
         element: <PaymentPage/>
+      },
+      {
+        path: '/new-arrivals',
+        element: <NewArrivals/>
+      },
+      {
+        path: '/new-arrivals/:productId',
+        element: <NewArrivalsDetailsPage/>
+      },
+      {
+        path: '/categories',
+        element: <Categories/>
       },
 
     ]

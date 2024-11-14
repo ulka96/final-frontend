@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../../components/common/containerClass'
 
 
@@ -18,9 +18,6 @@ const AllProductsPage = () => {
 const [isOpenCategory, setIsOpenCategory] = useState(false);
 const [isOpenSort, setIsOpenSort] = useState(false);
     
-                             
-
-
 const toggleDownCategory = () => {
    setIsOpenCategory(!isOpenCategory);
     };
@@ -29,6 +26,19 @@ const toggleDownSort = () => {
   setIsOpenSort(!isOpenSort);
     };
 
+  
+    const [topProducts, setTopProducts] = useState([])
+
+    const fetchTopProducts = async() => {
+      const response = await fetch("http://localhost:3000/api/products")
+      const data = await response.json()
+  
+      setTopProducts(data)
+    }
+  
+    useEffect(() => {
+      fetchTopProducts()
+    }, [])
 
     
 
@@ -141,19 +151,14 @@ const toggleDownSort = () => {
               {/* Top products */}
               
               <div className='grid grid-cols-2 grid-rows-3 gap-8 lg:grid-cols-4 mt-6'>
+              {
+              topProducts && topProducts.map((topProduct) => {
+
+                return <SingleProduct key={topProduct._id} topProduct={topProduct} productId={topProduct._id} />
+              })
+              }
               
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
+
              
               </div>  
               

@@ -11,40 +11,40 @@ import leaf from "../../assets/products/Leaf.png"
 
 // Components
 import SpecificReviews from '../../components/productDetails/specificReviews';
-import PeopleAlsoViewed from "../../components/common/peopleAlsoViewed/index"
 import Container from '../../components/common/containerClass'
 import { Link, useParams } from 'react-router-dom';
 
 
 const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
-const ProductDetailsPage = () => {
+const NewArrivalsDetailsPage = () => {
 
-  const [productDetail, setProductDetail] = useState(null);  
+    const [newArrivalDetail, setNewArrivalDetail] = useState(null);  
+    const [activeSection, setActiveSection] = useState('description');
   const { productId } = useParams();
 
-  const fetchProductDetails = async () => {
+  const fetchNewArrivalsDetails = async () => {
     try {
       if (!productId) throw new Error("Product ID is undefined");
-      const response = await fetch(`http://localhost:3000/api/products/${productId}`);
+      const response = await fetch(`http://localhost:3000/api/new-arrivals/${productId}`);
       const data = await response.json();
-      setProductDetail(data);
+      setNewArrivalDetail(data);
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
   };
 
-  console.log(productDetail?.color)
+  console.log(newArrivalDetail)
 
   useEffect(() => {
-    fetchProductDetails();
+    fetchNewArrivalsDetails();
   }, [productId]);
 
-  if (!productDetail) {
-    return <p>Loading...</p>; // Render loading state until data is fetched
+  if (!newArrivalDetail) {
+    return <p>Loading...</p>; 
   }
 
-  const colors = productDetail?.color?.length ? JSON.parse(productDetail.color[0]) : [];
+  const colors = newArrivalDetail?.color?.length ? JSON.parse(newArrivalDetail.color[0]) : [];
 
 
   return (
@@ -55,14 +55,14 @@ const ProductDetailsPage = () => {
                    
           <div className='flex flex-col md:flex-row md:gap-8 lg:flex-row flex-grow'>
             <div className='w-[361px] flex-grow lg:w-[70%] lg:h-[380px] md:w-[100%] md:h-[400px] '>
-              <img src={`http://localhost:3000/${productDetail.productPic}`} 
-                alt={productDetail.title}
+              <img src={`http://localhost:3000/${newArrivalDetail.productPic}`} 
+                alt={newArrivalDetail.title}
                 className='w-full md:h-[300px] lg:h-[400px]' />
               </div>
                   
 
                   <div className='flex flex-col mt-6 md:mt-0 lg:mt-0 w-full flex-grow'>
-                      <h1 className='text-[24px] md:text-[18px] lg:text-[28px] font-bold'>{productDetail.title}</h1>
+                      <h1 className='text-[24px] md:text-[18px] lg:text-[28px] font-bold'>{newArrivalDetail.title}</h1>
                     <div className='flex flex-row items-center gap-4 '>
                     <div className="flex flex-row items-center gap-1 ">
                    {stars.map((star) => (
@@ -73,13 +73,13 @@ const ProductDetailsPage = () => {
                       </div>
                       
                       <div className='flex flex-row items-center gap-3 mt-5 md:mt-3'>
-                <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>${productDetail.discountedPrice}</h1>
-                          <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc] line-through '>${productDetail.price}</h2>
-                          {productDetail.discount > 0 && <button className='py-1 px-2 w-[58px] md:w-[50px] lg:w-[62px] bg-[#fddcdf] text-[#f65162] rounded-full'>-{productDetail.discount}%</button>}
+                <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>${newArrivalDetail.discountedPrice}</h1>
+                          <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc] line-through '>${newArrivalDetail.price}</h2>
+                          {newArrivalDetail.discount > 0 && <button className='py-1 px-2 w-[58px] md:w-[50px] lg:w-[62px] bg-[#fddcdf] text-[#f65162] rounded-full'>-{newArrivalDetail.discount}%</button>}
                       </div>
 
                       <div>
-                          <p className='text-[#5f6980] text-justify md:text-[16px] lg:text-[18px] md:w-[330px] lg:w-[576px] mt-6 mb-8 md:mt-2 md:mb-3 lg:mt-7'>{productDetail.description}</p>
+                          <p className='text-[#5f6980] text-justify md:text-[16px] lg:text-[18px] md:w-[330px] lg:w-[576px] mt-6 mb-8 md:mt-2 md:mb-3 lg:mt-7'>{newArrivalDetail.description}</p>
                       </div>
 
                    <ul className='flex flex-row gap-4 '>
@@ -148,25 +148,36 @@ const ProductDetailsPage = () => {
           
 
               
-                  <div className='border border-[#d9d9d9] w-full my-6'></div>
+                  {/* Toggle Section */}
+          <div className='border border-[#d9d9d9] w-full my-6'></div>
+          <div className='flex flex-row justify-center items-center gap-12 my-4'>
+            <h2
+              onClick={() => setActiveSection('description')}
+              className={`text-[16px] md:text-[18px] cursor-pointer font-poppins ${activeSection === 'description' ? 'font-bold' : 'text-[#9f9f9f]'}`}
+            >
+              Description
+            </h2>
+            <h3
+              onClick={() => setActiveSection('reviews')}
+              className={`text-[16px] md:text-[18px] cursor-pointer font-poppins ${activeSection === 'reviews' ? 'font-bold' : 'text-[#9f9f9f]'}`}
+            >
+              Reviews [5]
+            </h3>
+          </div>
 
-                  <div className='flex flex-row justify-center items-center gap-12 my-4'>
-                      <h2 className='text-[16px] md:text-[18px] font-poppins font-bold'>Description</h2>
-                      <h3 className='text-[16px] md:text-[18px] font-poppins text-[#9f9f9f]'>Reviews [5]</h3>
-                  </div>
-                  {/* <div>
-                  <p className='text-[12px] md:text-[14px] lg:text-[16px] text-[#9f9f9f] text-justify'>Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.<br />
-                      Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
-                  </div> */}
-                 
-          <SpecificReviews />
-          
-          <PeopleAlsoViewed/>
-                   
+          {/* Conditional Rendering */}
+          {activeSection === 'description' ? (
+            <p className='text-[12px] md:text-[14px] lg:text-[16px] text-[#9f9f9f] text-justify'>
+              {newArrivalDetail.description}
+            </p>
+          ) : (
+            <SpecificReviews />
+          )}
+                            
               </div>
         </Container>
     </div>
   )
 }
 
-export default ProductDetailsPage
+export default NewArrivalsDetailsPage
