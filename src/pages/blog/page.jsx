@@ -10,7 +10,14 @@ import SingleBlog from '../../components/blog/singleBlog';
 
 const BlogPage = () => {
 
-  const [blogs, setBlogs] = useState([]);
+  // States
+  const [blogs, setBlogs] = useState([]); 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const [blogsPerPage] = useState(2); 
+
 
   const fetchBlogs = async() => {
     const response = await fetch("http://localhost:3000/api/blogs");
@@ -21,6 +28,37 @@ const BlogPage = () => {
   useEffect(() => {
     fetchBlogs();
   }, []);
+
+
+  const filteredBlogs = blogs.filter((blog) => (
+    
+    blog.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+  )
+  
+
+  // Pagination logic
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = filteredBlogs.slice(
+    indexOfFirstBlog,
+    indexOfLastBlog
+  );
+
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
 
 
     return (
@@ -38,7 +76,12 @@ const BlogPage = () => {
                   <p className='lg:text-[16px] md:text-[14px] text-[12px] text-center text-[#5f6980]'>Explore the latest trends in modern furniture design that can elevate your living space with style and functionality</p>
                   
                   <div className=' lg:w-[600px] md:w-[500px] w-[300px] lg:my-8 md:my-20 my-14 flex flex-row items-center relative'>
-                      <input type="text" placeholder='Search' className='w-full lg:py-3 lg:px-7 md:py-2 md:px-6 py-1 px-5 rounded-2xl outline-none lg:text-[16px] text-[12px] md:text-[14px]' />
+              <input
+                type="text"
+                placeholder='Search'
+                value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                className='w-full lg:py-3 lg:px-7 md:py-2 md:px-6 py-1 px-5 rounded-2xl outline-none lg:text-[16px] text-[12px] md:text-[14px]' />
                       <button><CiSearch className='absolute lg:top-3 lg:right-5 md:top-2 md:right-5 top-1 right-4 lg:text-2xl md:text-xl text-lg'/></button>
                   </div>
             </div>
@@ -49,7 +92,7 @@ const BlogPage = () => {
                 lg:grid lg:grid-cols-3 lg:auto-rows-auto
                 grid grid-cols-1 auto-rows-auto md:gap-8 '>
             {
-              blogs && blogs.map((blog) => {
+              currentBlogs && currentBlogs.map((blog) => {
                 return <SingleBlog blog={blog} blogId={blog._id} />
               })
                    }
@@ -62,25 +105,45 @@ const BlogPage = () => {
                          {/* Pagination */}
          <div className="my-8 md:my-12 lg:my-14 flex justify-center items-center space-x-2 md:space-x-3 ">
                   {/* Previous Button */}
-              <button className=" px-3 py-1 md:px-4 md:py-2  lg:px-5 lg:py-3 bg-gray-100 hover:bg-gray-200 hover:text-white rounded-lg text-[12px] md:text-[14px] lg:text-[16px]"
+                  <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 md:px-4 md:py-2 lg:px-5 lg:py-3 rounded-lg text-[12px] md:text-[14px] lg:text-[16px] ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#e7e5fb] hover:bg-[#7c71df] hover:text-white"
+            }`}
               >
                 Prev
               </button>
 
-            {/* Page Number Buttons */}
-          
-              <button
-                className={`px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-3 bg-gray-100 hover:bg-gray-200 hover:text-white rounded-lg text-[12px] md:text-[14px] lg:text-[16px]`}
-              >
-                1
-              </button>
+            {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageClick(index + 1)}
+              className={`px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-3 rounded-lg text-[12px] md:text-[14px] lg:text-[16px] ${
+                currentPage === index + 1
+                  ? "bg-[#7c71df] text-white"
+                  : "bg-[#e7e5fb] hover:bg-[#7c71df] hover:text-white"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
 
             {/* Next Button */}
-              <button
-                className=" px-3 py-1 md:px-4 md:py-2  lg:px-5 lg:py-3 bg-gray-100 hover:bg-gray-200 hover:text-white rounded-lg text-[12px] md:text-[14px] lg:text-[16px]"
-              >
-                Next
-              </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 md:px-4 md:py-2 lg:px-5 lg:py-3 rounded-lg text-[12px] md:text-[14px] lg:text-[16px] ${
+              currentPage === totalPages
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#e7e5fb] hover:bg-[#7c71df] hover:text-white"
+            }`}
+          >
+            Next
+          </button>
           </div>
          </Container>
     

@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
 
-const SingleBlog = ({blog, blogId}) => {
-
-  // const { blogId } = useParams()
+const SingleBlog = ({ blog, blogId }) => {
 
   const getEmbedUrl = (url) => {
     if (!url) return '';
