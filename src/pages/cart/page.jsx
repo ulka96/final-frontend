@@ -1,11 +1,12 @@
 import React from 'react'
 import Container from "../../components/common/containerClass/index"
 import { IoClose } from "react-icons/io5";
-
 import { IoMdArrowDropup } from "react-icons/io";
 import { IoMdArrowDropdown } from "react-icons/io";
-import tables from "../../assets/home/new5.png"
 import { BsCheck } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateQuantity } from '../../slices/cart.slice';
+import EmptyCartPage from '../emptyCart/page';
 
 
 const CartPage = (props) => {
@@ -14,7 +15,26 @@ const handleCheckoutAndCart = () => {
     props.closeCart() 
     props.openCheckout()
 }
+
+  const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart.cart);
     
+    console.log(cart)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  if (!isLoggedIn) {
+    return <p>Please log in to view your cart.</p>;
+  }
+
+  const handleQuantityChange = (productId, quantity) => {
+    if (quantity >= 0) {
+      dispatch(updateQuantity({ productId, quantity }));
+    }
+    };
+    
+
+
+
 
   return (
       <div>
@@ -37,116 +57,81 @@ const handleCheckoutAndCart = () => {
                             </button>
                                             
                             </div>
-                        <h2 className="text-[20px] font-medium text-gray-900" id="slide-over-title">Cart</h2>
+                                                  <h2 className="text-[20px] font-medium text-gray-900" id="slide-over-title">Cart</h2>
+                                                  {/* <button onClick={handleClearCart}>clear</button> */}
                         </div>
 
                     <div className="my-8">
-                                            <div className="flow-root">
-                                                <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                    <li className="flex py-6">
-                                                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                                  <img src= {tables} alt='tables' className='h-full w-full object-cover object-center'/>
-                                                        </div>
+                            <div className="flow-root">
+                        
+                        {cart?.length !== 0 &&
+                           <ul role="list" className="-my-6 divide-y divide-gray-200">
+                            {cart.map((item) => {
+                        return  <li  key={item?.product._id} className="flex py-6">
+                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                             <img src={`http://localhost:3000/${item?.product.productPic}`} alt={item?.product.title} className='h-full w-full object-cover object-center'/>
+                         </div>
+                             <div className="ml-4 flex flex-1 flex-col justify-between">
+                                <div>
+                                        <div className="flex justify-between text-base font-medium text-gray-900">
+                                        <h3 className=''>
+                                        {item?.product.title}
+                                        </h3>
+                                        <p className="ml-4 text-[14px] text-[#7c71df]">${item?.product.discountedPrice}</p>
+                                    </div>
+                                </div>
+                                                        
+                    <div className='flex items-end justify-between'>
+                                                                  
+                        <ul className='flex flex-row gap-2 '>
+                             <li 
+                             className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
+                               >
+                              <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl' /></span>
+                             </li>
+                                 
+                             <li 
+                             className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
+                               >
+                              <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl'/></span>
+                                 </li>
+                             </ul>
 
-                                                        <div className="ml-4 flex flex-1 flex-col justify-between">
-                                                            <div>
-                                                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                    <h3 className=''>
-                                                                    Luxe Armchair -
-                                                                    Left Arm Chute
-                                                                    </h3>
-                                                                    <p className="ml-4 text-[14px] text-[#7c71df]">$899.00</p>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                                  <div className='flex items-end justify-between'>
-                                                                      
-                                                                  <ul className='flex flex-row gap-2 '>
-                                                                      <li 
-                                                                      className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
-                                                                        >
-                                                                       <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl' /></span>
-                                                                      </li>
-                                                                          
-                                                                      <li 
-                                                                      className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
-                                                                        >
-                                                                       <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl'/></span>
-                                                                          </li>
-                                                                      </ul>
+                                <div className='flex items-center gap-1'>
+                                <button
+                                        onClick={() => handleQuantityChange(item?.product._id, item?.quantity - 1)}
+                                         className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]"
+                                     >
+                                         <IoMdArrowDropdown />
+                                    </button>
+                                     <div className="flex flex-wrap gap-4">
+                                         {item?.quantity}
+                                     </div>
+                                        <button
+                                        onClick={() => handleQuantityChange(item?.product._id, item?.quantity + 1)}
+                                         className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]">
+                                         <IoMdArrowDropup />
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                     </li>
+                                                              
+                         })
+                                                              
+                         }                         
 
-                                                                      
-                                                                      
-
-                                                                <div className='flex items-center gap-1'>
-                                                                    <button
-                                                                        className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]"
-                                                                    >
-                                                                        <IoMdArrowDropdown />
-                                                                    </button>
-                                                                    <div className="flex flex-wrap gap-4">
-                                                                        0
-                                                                    </div>
-                                                                    <button
-                                                                        className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]">
-                                                                        <IoMdArrowDropup />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li className="flex py-6">
-                                                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                            <img src={tables} alt="tables"className="h-full w-full object-cover object-center" />
-                                                        </div>
-
-                                                        <div className="ml-4 flex flex-1 flex-col justify-between">
-                                                            <div>
-                                                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                    <h3>
-                                                                        <a href="#">Medium Stuff Satchel</a>
-                                                                    </h3>
-                                                                    <p className="ml-4">$32.00</p>
-                                                                </div>
-                                                            </div>
-                                                              <div className='flex items-end justify-between'>
-                                                              <ul className='flex flex-row gap-2 '>
-                                                                      <li 
-                                                                      className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
-                                                                        >
-                                                                       <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl' /></span>
-                                                                      </li>
-                                                                          
-                                                                      <li 
-                                                                      className={`h-7 w-7 lg:w-11 lg:h-11 bg-[#ae918c] border flex items-center justify-center rounded-full cursor-pointer`}
-                                                                        >
-                                                                       <span><BsCheck className='text-white text-xl md:text-lg lg:text-2xl'/></span>
-                                                                          </li>
-                                                                      </ul>
-
-                                                                <div className='flex items-center gap-1'>
-                                                                    <button
-                                                                        className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]"
-                                                                    >
-                                                                        <IoMdArrowDropdown />
-                                                                    </button>
-                                                                    <div className="flex flex-wrap gap-4">
-                                                                        0
-                                                                    </div>
-                                                                    <button
-                                                                        className="cursor-pointer items-center font-bold text-xl border justify-center duration-100 text-[#7c71df]">
-                                                                        <IoMdArrowDropup />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                          </li>
                                                           
-                                                </ul>
-                                            </div>
-                                           </div>
+
+
+                                                          
+                             </ul>}
+                                                      
+
+                     </div>
+                    </div>
                                    
-                               <div className="border-t border-gray-200 px-4 py-6  sm:px-6 mt-56 lg:mt-[600px]">
+                        {cart.length !== 0 && <div className="border-t border-gray-200 px-4 py-6  sm:px-6 mt-56 lg:mt-[600px]">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal</p>
                                             <p>$262.00</p>
@@ -169,10 +154,10 @@ const handleCheckoutAndCart = () => {
                                                 </button>
                                             </p>
                                         </div>
-                    </div>
+                    </div>}
                                               
                     
-                        {/* <EmptyCartPage closeEmpty={ props.closeCart} /> */}
+                        {cart.length === 0 && <EmptyCartPage closeEmpty={ props.closeCart} />}
                                               
 
                                         

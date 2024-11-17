@@ -23,10 +23,11 @@ import logo from '../../../../src/assets/layout/Oasis.png';
 import CartPage from '../../../pages/cart/page';
 import SignInPage from '../../../pages/sign-in/page';
 import SignUpPage from '../../../pages/sign-up/page';
-import WishlistPage from '../../../pages/wishlist/page';
+// import WishlistPage from '../../../pages/wishlist/page';
 import EmptyCartPage from '../../../pages/emptyCart/page';
 import CheckoutPage from '../../../pages/checkOut/page';
 import PaymentPage from '../../../pages/payment/page';
+import { clearWishlist } from '../../../slices/wishlist.slice.js';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,6 +37,22 @@ const Header = () => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+
+  const wishlist = useSelector((state) => state.wishlist.wishlist)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleWishlistClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault(); 
+      setIsModalOpen(true); 
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+  };
+
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -89,6 +106,7 @@ const Header = () => {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.cart.cart);
 
   console.log(user);
   const dispatch = useDispatch();
@@ -137,21 +155,46 @@ const Header = () => {
           </ul>
 
           <div className="lg:flex gap-[30px] hidden md:hidden ">
-            <div className="p-[19px] rounded-full bg-[#f8f7fb]">
-              <Link to="/wishlist">
+            <div className="p-[19px] rounded-full relative bg-[#f8f7fb]">
+              <Link to="/wishlist" onClick={handleWishlistClick}>
                 <CiHeart className="w-6 h-6 text-[#5e4fa8]" />
               </Link>
+              <span
+                className="h-6 w-6 rounded-full bg-[#5e4fa8] border border-[#5e4fa8] text-white flex 
+            items-center justify-center text-xs font-semibold absolute -right-[10px] top-3"
+              >
+                {isLoggedIn ? wishlist?.length : 0}
+              </span>
             </div>
 
+            {/* Modal */}
+        {isModalOpen && (
+          <div onClick={closeModal}  className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
+              <h2 className="text-lg font-semibold mb-4">
+                You must be logged in to view your wishlist.
+              </h2>
+              <button
+                onClick={toggleLogin}
+                className="px-4 py-2 bg-[#5e4fa8] text-white rounded-md hover:bg-[#4e3e99]"
+              >
+                Login
+                  </button>
+
+            </div>
+          </div>
+        )}
+
             <div className="p-[19px] rounded-full bg-[#f8f7fb] relative">
-              <button onClick={toggleCart}>
-                <PiShoppingCart className="w-6 h-6 text-[#5e4fa8]" />
+              <button
+                onClick={toggleCart}>
+                <PiShoppingCart className="w-6 h-6 text-[#5e4fa8] " />
               </button>
               <span
                 className="h-6 w-6 rounded-full bg-[#5e4fa8] border border-[#5e4fa8] text-white flex 
             items-center justify-center text-xs font-semibold absolute -right-[10px] top-3"
               >
-                2
+                {isLoggedIn ? cart?.length : 0}
               </span>
             </div>
 
