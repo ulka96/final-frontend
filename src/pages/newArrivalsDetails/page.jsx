@@ -13,15 +13,25 @@ import leaf from "../../assets/products/Leaf.png"
 import SpecificReviews from '../../components/productDetails/specificReviews';
 import Container from '../../components/common/containerClass'
 import { Link, useParams } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import ErrorModal from '../../components/common/errorModalRating'; 
 
 const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
 const NewArrivalsDetailsPage = () => {
 
-    const [newArrivalDetail, setNewArrivalDetail] = useState(null);  
-    const [activeSection, setActiveSection] = useState('description');
+  const [newArrivalDetail, setNewArrivalDetail] = useState(null);  
+  const [activeSection, setActiveSection] = useState('description');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
   const { productId } = useParams();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userId = useSelector((state) => state.auth.user);
+
 
   const fetchNewArrivalsDetails = async () => {
     try {
@@ -45,11 +55,68 @@ const NewArrivalsDetailsPage = () => {
   }
 
   const colors = newArrivalDetail?.color?.length ? JSON.parse(newArrivalDetail.color[0]) : [];
+  
 
+  // Rating
+  const handleRateProduct = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/rate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId,
+          rating,
+          comment,
+          userId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        setErrorMessage("");
+        setIsModalOpen(false);
+        fetchNewArrivalsDetails();
+      } else {
+        setErrorMessage(data.message);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred while submitting your rating.");
+    }
+  };
+
+  const hasRated = newArrivalDetail.ratings?.map((singleRating) => singleRating.user === userId)
+
+  
+  const handleStarClick = (starId) => {
+    if (isLoggedIn) {
+      if (!hasRated) {
+        setRating(starId);
+        setIsModalOpen(true); // Open the modal
+      } else {
+        setErrorMessage("You have already rated this product.");
+        setShowErrorModal(true);  // Show the error modal
+      }
+    } else {
+      setErrorMessage("Please log in to rate this product.");
+      setShowErrorModal(true);  // Show the error modal
+    }
+  };
+  
 
   return (
       <div>
       <Container>
+
+         {/* Error Modal */}
+         {showErrorModal && (
+          <ErrorModal 
+            message={errorMessage} 
+            onClose={() => setShowErrorModal(false)}  // Close modal
+          />
+        )}
       
         <div className='mt-11 flex flex-col'>
                    
@@ -65,11 +132,15 @@ const NewArrivalsDetailsPage = () => {
                       <h1 className='text-[24px] md:text-[18px] lg:text-[28px] font-bold'>{newArrivalDetail.title}</h1>
                     <div className='flex flex-row items-center gap-4 '>
                     <div className="flex flex-row items-center gap-1 ">
-                   {stars.map((star) => (
-                 <FaStar key={star.id} className="text-yellow-500 cursor-pointer" />
+                   {stars.map((star, index) => (
+                 <FaStar
+                 key={star.id}
+                 className="text-yellow-500 cursor-pointer"
+                 onClick={() => handleStarClick(star.id)}
+               />
                     ))}
                         </div>
-                          <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>5 Customer Review</p>
+                          <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>{newArrivalDetail.ratings?.length} Customer Review</p>
                       </div>
                       
                       <div className='flex flex-row items-center gap-3 mt-5 md:mt-3'>
@@ -163,6 +234,11 @@ const NewArrivalsDetailsPage = () => {
             >
               Reviews [5]
             </h3>
+            {activeSection === 'reviews' && <div className='p-2 border border-black rounded-lg hover:text-white hover:bg-black'>
+              <button>
+                Write a review
+              </button>
+            </div>}
           </div>
 
           {/* Conditional Rendering */}
@@ -173,6 +249,49 @@ const NewArrivalsDetailsPage = () => {
           ) : (
             <SpecificReviews />
           )}
+
+
+
+                    {/* Modal */}
+                    {isModalOpen && (
+            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+              <div className="bg-white p-8 rounded-lg shadow-md">
+                <h2 className="text-lg font-bold mb-4">Rate Product</h2>
+                <div className="flex gap-2">
+                  {stars.map((star, index) => (
+                    <FaStar
+                      key={index}
+                      className={`cursor-pointer ${rating >= star.id ? "text-yellow-500" : "text-gray-300"}`}
+                      onClick={() => setRating(star.id)}
+                    />
+                  ))}
+                </div>
+                <textarea
+                  placeholder="Write your comment here..."
+                  className="w-full mt-4 p-2 border rounded-md"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+                {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+                <div className="flex justify-end gap-4 mt-4">
+                  <button
+                    className="py-2 px-4 bg-gray-200 rounded-md"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="py-2 px-4 bg-blue-500 text-white rounded-md"
+                    onClick={handleRateProduct}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+
                             
               </div>
         </Container>
