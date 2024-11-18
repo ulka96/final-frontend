@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../../components/common/containerClass'
 
 
@@ -6,22 +6,34 @@ import Container from '../../components/common/containerClass'
 import { IoChevronUp } from "react-icons/io5";
 import { IoChevronDown } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
-
-
-
+import {CiHeart} from "react-icons/ci";
+import { PiShoppingCart } from "react-icons/pi";
+import {AiFillHeart} from "react-icons/ai"
 
 import SingleProduct from '../../components/home/singleProduct';
 import PeopleAlsoViewed from '../../components/common/peopleAlsoViewed';
+import { addToCart } from '../../slices/cart.slice';
+import { addToWishlist, removeFromWishlist } from '../../slices/wishlist.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 const SittingRoomPage = () => {
 
+  // const { productId } = useParams()
+  
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist.wishlist)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  // const isInWishlist = wishlist.some((item) => item._id === topProduct._id);
+
+
 const [isOpenCategory, setIsOpenCategory] = useState(false);
-const [isOpenSort, setIsOpenSort] = useState(false);
+  const [isOpenSort, setIsOpenSort] = useState(false);
+  const [sittingRooms, setSittingRooms] = useState([])
     
-                             
-
-
+                            
 const toggleDownCategory = () => {
    setIsOpenCategory(!isOpenCategory);
     };
@@ -30,6 +42,19 @@ const toggleDownSort = () => {
   setIsOpenSort(!isOpenSort);
     };
 
+  
+    const fetchSittingRooms = async () => {
+      const response = await fetch("http://localhost:3000/api/products?category=Sitting Room");
+      const data = await response.json();
+    
+      console.log(data); 
+      setSittingRooms(data);  
+    };
+    
+    useEffect(() => {
+      fetchSittingRooms();  
+    }, []);
+    
 
     
 
@@ -174,19 +199,89 @@ const toggleDownSort = () => {
               {/* Top products */}
               
               <div className='grid grid-cols-2 grid-rows-3 gap-8 lg:grid-cols-4 mt-6'>
+          {
+            sittingRooms && sittingRooms.map((sittingRoom) => {
+
+              return   <div>
+            
+              <div className="justify-center items-center relative w-[164px] h-[173px] lg:w-[296px] lg:h-[313px] md:w-[343px] md:h-[343px] bg-[#f3f4f7] overflow-hidden  hover:drop-shadow-lg">
+                  <Link to={`/products/${sittingRoom._id}`}><div className="absolute inset-0 transform transition-transform duration-1000 ease-in-out hover:scale-110 ">
+                      <img src={`http://localhost:3000/${sittingRoom?.productPic}`} alt="sofa2" className="w-full h-full object-cover" />
+                  </div>
+                  </Link>
+          {sittingRoom?.newArrival && <div className='py-[8px] px-[6px] lg:py-[12px] lg:px-[10px] md:py-[12px] md:px-[10px]  ml-2 rounded-full bg-[#2ec1ac] absolute top-2 right-2 md:top-3 md:right-3 lg:top-4 lg:right-4'>
+              <p className='text-white text-[8px] lg:text-[11px] 
+                md:text-[10px]'>New</p>              
+                  </div>}
+                  
+                  {sittingRoom?.discount > 0 && <div className='py-[8px] px-[6px] lg:py-[12px] lg:px-[10px] md:py-[12px] md:px-[10px]  ml-2 rounded-full bg-[#dc2626] absolute top-2 right-2 md:top-3 md:right-3 lg:top-4 lg:right-4'>
+              <p className='text-white text-[8px] lg:text-[11px] 
+                md:text-[10px]'>{sittingRoom?.discount} %</p>              
+          </div> }
+          </div>
+   
               
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
+  
+       <div className='flex flex-col'>
+                  <h1 className='font-semibold text-[12px] md:text-[16px] mt-1 ml-3'>{sittingRoom?.title}</h1>
+  
+          <div className='flex flex-row mt-1 ml-3  items-center'>
+          <p className={`${sittingRoom?.discount > 0 ? 'line-through' : ''} text-[12px] md:text-[16px]`}>${sittingRoom?.price}</p>
+          {sittingRoom?.discount > 0 && <p className='text-[12px] ml-2 md:ml-3 font-bold md:text-[16px]'>${sittingRoom?.discountedPrice}</p>}
+                
+                      
+          <div className='p-[4px] md:p-[5px] ml-3 md:ml-auto rounded-full bg-[#f8f7fb]'>
+               
+                <button onClick={() => {
+                        if (!isLoggedIn) {
+                          alert("You must be logged in to add products to your wishlist.");
+                          return;
+                        }
+                        if (wishlist.some((item) => item._id === sittingRoom._id)) {
+                          dispatch(removeFromWishlist(sittingRoom._id))
+                        }
+                        else {
+                          dispatch(addToWishlist(sittingRoom))
+                        }
+}}>
+                 {wishlist.some((item) => item._id === sittingRoom._id) ? (
+                   <AiFillHeart className="text-red-500 w-4 h-4 md:w-5 md:h-5" />
+                 ) : (
+                  <CiHeart className='w-4 h-4 md:w-5 md:h-5' /> 
+                 )}
+                </button>
+                
+          </div>
+                      
+            <div className='p-[4px] md:p-[5px] ml-2 md:mr-5 rounded-full bg-[#f8f7fb] hover:bg-[#dfdff1]'>
+                <button
+                  className='cursor-pointer'
+                  onClick={() => {
+                    if (isLoggedIn) {
+
+                      const handleAddToCart = (sittingRoom) => {
+                        dispatch(addToCart(sittingRoom));
+                        alert('Item added to cart!');
+                      };
+                      handleAddToCart(sittingRoom);
+                    } else {
+                      alert('Please log in to add items to the cart.');
+                    }
+                  }}>
+                  <PiShoppingCart className='w-4 h-4 md:w-5 md:h-5 hover:text-[#6e5fac] '/>
+                </button>
+          </div>
+                      
+  
+          </div>
+              
+       </div>  
+  
+       </div>
+                     
+            })
+               }
+
              
               </div>  
               

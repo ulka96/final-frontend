@@ -10,6 +10,8 @@ const fetchCategories = async() => {
   const response = await fetch("http://localhost:3000/api/categories")
   const data = await response.json()
 
+  console.log(data)
+
   setCategories(data)
 
   }

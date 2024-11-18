@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearWishlist, removeFromWishlist } from '../../slices/wishlist.slice';
 import { AiOutlineDelete } from 'react-icons/ai';
 import {PiShoppingCart} from 'react-icons/pi'
+import { addToCart } from '../../slices/cart.slice';
 
 const WishlistPage = () => {
 
@@ -19,11 +20,20 @@ const WishlistPage = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist)
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-
-
   const handleClearWishlist = () => {
     dispatch(clearWishlist());
   };
+
+
+
+  // const handleAddToCart = () => {
+  //   if (!isLoggedIn) {
+  //     alert("You must be logged in to add products to your cart.");
+  //     return;
+  //   }
+  //   dispatch(addToCart(product));
+  // };
+
 
 
 // Slider
@@ -112,17 +122,26 @@ const scrollRight = () => {
               <p className={`${product?.discount > 0 ? 'line-through' : ''} text-[12px] md:text-[16px]`}>${product?.price}</p>
               {product?.discount > 0 && <p className='text-[12px] ml-2 md:ml-3 font-bold md:text-[16px]'>${product?.discountedPrice}</p>}
                           
-              <div className='p-[4px] md:p-[5px] ml-3 md:ml-auto rounded-full bg-[#f8f7fb]'>
+              <div
+                 onClick={() => dispatch(removeFromWishlist(product._id))}
+                className='p-[4px] md:p-[5px] ml-3 md:ml-auto rounded-full bg-[#f8f7fb] cursor-pointer hover:bg-[#dfdff1]'>
                     
-              <button onClick={() => dispatch(removeFromWishlist(product._id))}>
-              <AiOutlineDelete/>
-            </button>
-                    
+                <AiOutlineDelete className='w-4 h-4 md:w-5 md:h-5 hover:text-[#6e5fac]'/>
               </div>
                           
-              <div className='p-[4px] md:p-[5px] ml-2 md:mr-5 rounded-full bg-[#f8f7fb]'>
-                    <PiShoppingCart className='w-4 h-4 md:w-5 md:h-5 '/>
-              </div>
+              <div
+  onClick={() => {
+    if (!isLoggedIn) {
+      alert("You must be logged in to add products to your cart.");
+      return;
+    }
+    dispatch(addToCart(product));
+  }}
+  className="p-[4px] md:p-[5px] ml-2 md:mr-5 rounded-full bg-[#f8f7fb] cursor-pointer hover:bg-[#dfdff1]"
+>
+  <PiShoppingCart className="w-4 h-4 md:w-5 md:h-5 hover:text-[#6e5fac]" />
+</div>
+
                           
       
               </div>

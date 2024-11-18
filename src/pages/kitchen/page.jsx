@@ -8,7 +8,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 
 
-import SingleProduct from '../../components/home/singleProduct';
+// import SingleProduct from '../../components/home/singleProduct';
 import PeopleAlsoViewed from '../../components/common/peopleAlsoViewed';
 
 
@@ -172,6 +172,7 @@ const toggleDownSort = () => {
               
               <div className='grid grid-cols-2 grid-rows-3 gap-8 lg:grid-cols-4 mt-6'>
               
+              {/* <SingleProduct/>
               <SingleProduct/>
               <SingleProduct/>
               <SingleProduct/>
@@ -182,8 +183,7 @@ const toggleDownSort = () => {
               <SingleProduct/>
               <SingleProduct/>
               <SingleProduct/>
-              <SingleProduct/>
-              <SingleProduct/>
+              <SingleProduct/> */}
              
               </div>  
               

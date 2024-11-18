@@ -40,6 +40,8 @@ const SingleProduct = ({ topProduct, productId}) => {
     dispatch(addToCart(topProduct));
   };
 
+  // const{productId} = useParams()
+
 
     return (
         <div>
@@ -81,8 +83,9 @@ const SingleProduct = ({ topProduct, productId}) => {
               
         </div>
                     
-          <div className='p-[4px] md:p-[5px] ml-2 md:mr-5 rounded-full bg-[#f8f7fb] hover:bg-[]'>
+          <div className='p-[4px] md:p-[5px] ml-2 md:mr-5 rounded-full bg-[#f8f7fb] hover:bg-[#dfdff1]'>
               <button
+                className='cursor-pointer'
                 onClick={handleAddToCart}>
                 <PiShoppingCart className='w-4 h-4 md:w-5 md:h-5 hover:text-[#6e5fac] '/>
               </button>
