@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 // Actions
 
 import {login, setUser} from "../../slices/auth.slice.js"
+import { clearCart, loadCart } from '../../slices/cart.slice.js';
+import { clearWishlist, loadWishlist } from '../../slices/wishlist.slice.js';
 
 
 const SignInPage = (props) => {
@@ -51,7 +53,6 @@ const navigate = useNavigate()
       return;
     }
 
-
     try {
       const response = await fetch("http://localhost:3000/api/auth/sign-in", {
         method: "POST",
@@ -63,9 +64,6 @@ const navigate = useNavigate()
       })
 
       const data = await response.json()
-
-      console.log(data)
-      console.log(response)
      
       if (response.ok) {
         dispatch(setUser(data.user))
@@ -78,6 +76,8 @@ const navigate = useNavigate()
         setErrorMessage("Wrong username or password.");
         setShowModal(true);
       }
+
+
     } catch (error) {
       console.error("Fetch error:", error);
       setErrorMessage("An error occurred. Please try again later.");

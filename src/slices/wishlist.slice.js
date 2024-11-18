@@ -27,10 +27,14 @@ const initialState = {
         state.wishlist = [];
         localStorage.removeItem("wishlist");
       },
+
+      loadWishlist: (state, action) => {
+        state.wishlist = action.payload;
+      },
     },
   });
   
 
-export const { addToWishlist, removeFromWishlist, clearWishlist } = wishlistSlice.actions;
+export const { addToWishlist, removeFromWishlist, clearWishlist, loadWishlist } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

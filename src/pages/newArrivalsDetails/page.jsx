@@ -68,7 +68,6 @@ const NewArrivalsDetailsPage = () => {
         body: JSON.stringify({
           productId,
           rating,
-          comment,
           userId,
         }),
       });
@@ -104,6 +103,15 @@ const NewArrivalsDetailsPage = () => {
       setShowErrorModal(true);  // Show the error modal
     }
   };
+
+    // Calculate the average rating
+    const calculateAverageRating = (ratings) => {
+      if (ratings.length === 0) return 0;
+      const totalRating = ratings.reduce((acc, rating) => acc + rating.rating, 0);
+      return (totalRating / ratings.length).toFixed(1); 
+    };
+  
+    const averageRating = calculateAverageRating(newArrivalDetail.ratings);
   
 
   return (
@@ -114,7 +122,7 @@ const NewArrivalsDetailsPage = () => {
          {showErrorModal && (
           <ErrorModal 
             message={errorMessage} 
-            onClose={() => setShowErrorModal(false)}  // Close modal
+            onClose={() => setShowErrorModal(false)}  
           />
         )}
       
@@ -140,7 +148,13 @@ const NewArrivalsDetailsPage = () => {
                />
                     ))}
                         </div>
-                          <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>{newArrivalDetail.ratings?.length} Customer Review</p>
+                {/* Display average rating */}
+                {averageRating > 0 && (
+                  <p className="text-[12px] lg:text-[18px] font-poppins text-[#5f6980]">
+                    ({averageRating})
+                  </p>
+                )}
+                {/* <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>{newArrivalDetail.ratings?.length}  Customer Review</p> */}
                       </div>
                       
                       <div className='flex flex-row items-center gap-3 mt-5 md:mt-3'>
@@ -266,12 +280,6 @@ const NewArrivalsDetailsPage = () => {
                     />
                   ))}
                 </div>
-                <textarea
-                  placeholder="Write your comment here..."
-                  className="w-full mt-4 p-2 border rounded-md"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                ></textarea>
                 {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
                 <div className="flex justify-end gap-4 mt-4">
                   <button

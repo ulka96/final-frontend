@@ -28,6 +28,7 @@ import EmptyCartPage from '../../../pages/emptyCart/page';
 import CheckoutPage from '../../../pages/checkOut/page';
 import PaymentPage from '../../../pages/payment/page';
 import { clearWishlist } from '../../../slices/wishlist.slice.js';
+import { clearCart } from '../../../slices/cart.slice.js';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,16 +122,25 @@ const Header = () => {
         credentials: 'include',
       });
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error('Logout failed');
       }
-
+  
+      // Dispatch actions to clear Redux state
       dispatch(logout());
+      dispatch(clearCart());
+      dispatch(clearWishlist());
+  
+      // Also clear the cart and wishlist from localStorage
+      localStorage.removeItem('cart');
+      localStorage.removeItem('wishlist');
+  
     } catch (error) {
       console.error('Error during logout:', error);
     }
   };
+  
 
   return (
     <Container>
