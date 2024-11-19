@@ -5,7 +5,6 @@ import { FaStar } from "react-icons/fa";
 import { BsCheck } from "react-icons/bs";
 
 // Images
-import tables from "../../assets/home/new5.png"
 import box from "../../assets/products/Box.png"
 import leaf from "../../assets/products/Leaf.png"
 
@@ -24,13 +23,12 @@ const NewArrivalsDetailsPage = () => {
   const [activeSection, setActiveSection] = useState('description');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   const { productId } = useParams();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const userId = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user?._id);
 
 
   const fetchNewArrivalsDetails = async () => {
@@ -44,14 +42,25 @@ const NewArrivalsDetailsPage = () => {
     }
   };
 
-  console.log(newArrivalDetail)
+  // Fetch ratings for the product
+  const fetchProductRatings = async () => {
+    try {
+      if (!productId) throw new Error("Product ID is undefined");
+      const response = await fetch(`http://localhost:3000/api/rate/${productId}`);
+      const data = await response.json();
+      setNewArrivalDetail((prev) => ({ ...prev, ratings: data.ratings }));
+    } catch (error) {
+      console.error("Error fetching product ratings:", error);
+    }
+  };
 
   useEffect(() => {
     fetchNewArrivalsDetails();
+    fetchProductRatings();
   }, [productId]);
 
   if (!newArrivalDetail) {
-    return <p>Loading...</p>; 
+    return <p>Loading...</p>;
   }
 
   const colors = newArrivalDetail?.color?.length ? JSON.parse(newArrivalDetail.color[0]) : [];
@@ -74,10 +83,10 @@ const NewArrivalsDetailsPage = () => {
 
       const data = await response.json();
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setErrorMessage("");
         setIsModalOpen(false);
-        fetchNewArrivalsDetails();
+        fetchProductRatings();
       } else {
         setErrorMessage(data.message);
       }
@@ -86,31 +95,33 @@ const NewArrivalsDetailsPage = () => {
     }
   };
 
-  const hasRated = newArrivalDetail.ratings?.map((singleRating) => singleRating.user === userId)
-
   
+  const hasRated = newArrivalDetail.ratings?.some((singleRating) => singleRating.userId === userId);
+
+  // Handle star click for rating
   const handleStarClick = (starId) => {
     if (isLoggedIn) {
       if (!hasRated) {
         setRating(starId);
-        setIsModalOpen(true); // Open the modal
+        setIsModalOpen(true);
       } else {
         setErrorMessage("You have already rated this product.");
-        setShowErrorModal(true);  // Show the error modal
+        setShowErrorModal(true);
       }
     } else {
       setErrorMessage("Please log in to rate this product.");
-      setShowErrorModal(true);  // Show the error modal
+      setShowErrorModal(true);
     }
   };
 
     // Calculate the average rating
+
     const calculateAverageRating = (ratings) => {
-      if (ratings.length === 0) return 0;
+      if (!ratings || ratings.length === 0) return 0;
       const totalRating = ratings.reduce((acc, rating) => acc + rating.rating, 0);
-      return (totalRating / ratings.length).toFixed(1); 
+      return (totalRating / ratings.length).toFixed(1);
     };
-  
+    
     const averageRating = calculateAverageRating(newArrivalDetail.ratings);
   
 
@@ -149,17 +160,18 @@ const NewArrivalsDetailsPage = () => {
                     ))}
                         </div>
                 {/* Display average rating */}
-                {averageRating > 0 && (
+              
                   <p className="text-[12px] lg:text-[18px] font-poppins text-[#5f6980]">
                     ({averageRating})
                   </p>
-                )}
+              
                 {/* <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>{newArrivalDetail.ratings?.length}  Customer Review</p> */}
                       </div>
                       
                       <div className='flex flex-row items-center gap-3 mt-5 md:mt-3'>
-                <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>${newArrivalDetail.discountedPrice}</h1>
-                          <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc] line-through '>${newArrivalDetail.price}</h2>
+                <h1 className='text-[26px] md:text-[20px] lg:text-[24px] text-[#8965c8] font-poppins font-semibold'>${newArrivalDetail.price}</h1>
+                {newArrivalDetail.discount > 0 && <h2 className='text-[16px] md:text-[14px] lg:text-[18px]  text-[#bfc3cc]
+                           '>${newArrivalDetail.discountedPrice}</h2>}
                           {newArrivalDetail.discount > 0 && <button className='py-1 px-2 w-[58px] md:w-[50px] lg:w-[62px] bg-[#fddcdf] text-[#f65162] rounded-full'>-{newArrivalDetail.discount}%</button>}
                       </div>
 
@@ -261,7 +273,9 @@ const NewArrivalsDetailsPage = () => {
               {newArrivalDetail.description}
             </p>
           ) : (
-            <SpecificReviews />
+              <SpecificReviews
+                reviews={newArrivalDetail?.ratings} 
+            productId={newArrivalDetail?._id} />
           )}
 
 
