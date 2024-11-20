@@ -54,7 +54,7 @@ const RightSideProduct = ({ newArrivalDetail, fetchProductRatings, ratings }) =>
         }
     };
     
-      const hasRated = ratings.ratings?.some((singleRating) => singleRating.userId === userId);
+      const hasRated = ratings.ratings?.some((singleRating) => singleRating.userId === userId);  //backendde ratings.ratings olur
 
       // Handle star click for rating
       const handleStarClick = (starId) => {
@@ -75,9 +75,10 @@ const RightSideProduct = ({ newArrivalDetail, fetchProductRatings, ratings }) =>
     
     // Calculate the average rating
 
-    const averageRating = ratings.averageRating
+    const averageRating = ratings.averageRating;
+    const formattedAverageRating = averageRating?.toFixed(1) || '0.0';
     
-      const stars = Array.from({ length: 5 }, (_, i) => i + 1);
+    const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 
 
   return (
@@ -110,7 +111,7 @@ const RightSideProduct = ({ newArrivalDetail, fetchProductRatings, ratings }) =>
                 {/* Display average rating */}
               
                   <p className="text-[12px] lg:text-[18px] font-poppins text-[#5f6980]">
-                    ({averageRating})
+                    ({formattedAverageRating})
                   </p>
               
                 {/* <p className='text-[14px] lg:text-[20px] font-poppins text-[#5f6980]'>{newArrivalDetail.ratings?.length}  Customer Review</p> */}
