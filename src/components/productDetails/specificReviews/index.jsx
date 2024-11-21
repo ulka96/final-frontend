@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import SpecificReview from '../specificReview'
 
+import { getReviews } from "../../../slices/reviews.slice.js"
+import { useDispatch } from 'react-redux'
+
 
 const SpecificReviews = ({  productId }) => {
+  
+  const dispatch = useDispatch()
 
   const [reviews, setReviews] = useState([])
   
@@ -16,7 +21,7 @@ const SpecificReviews = ({  productId }) => {
     }
   };
 
-  console.log(reviews)
+  dispatch(getReviews(reviews))
 
   useEffect(() => {
     fetchProductReviews()

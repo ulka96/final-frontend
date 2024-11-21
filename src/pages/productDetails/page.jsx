@@ -21,6 +21,8 @@ const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 const ProductDetailsPage = () => {
 
   const [productDetail, setProductDetail] = useState(null);  
+  const [activeSection, setActiveSection] = useState('description');
+
   const { productId } = useParams();
 
   const fetchProductDetails = async () => {
@@ -147,22 +149,40 @@ const ProductDetailsPage = () => {
                   </div>
           
 
-              
-                  <div className='border border-[#d9d9d9] w-full my-6'></div>
+              {/* Toggle description and reviews */}
+          <div className='border border-[#d9d9d9] w-full my-6'></div>
+          <div className='flex flex-row justify-center items-center gap-12 my-4'>
+            <h2
+              onClick={() => setActiveSection('description')}
+              className={`text-[16px] md:text-[18px] cursor-pointer font-poppins ${activeSection === 'description' ? 'font-bold' : 'text-[#9f9f9f]'}`}
+            >
+              Description
+            </h2>
+            <h3
+              onClick={() => setActiveSection('reviews')}
+              className={`text-[16px] md:text-[18px] cursor-pointer font-poppins ${activeSection === 'reviews' ? 'font-bold' : 'text-[#9f9f9f]'}`}
+            >
+              Reviews [5]
+            </h3>
+            {activeSection === 'reviews' && <div className='p-2 border border-black rounded-lg hover:text-white hover:bg-black'>
+              <button >
+                Write a review
+              </button>
+            </div>}
+          </div>
 
-                  <div className='flex flex-row justify-center items-center gap-12 my-4'>
-                      <h2 className='text-[16px] md:text-[18px] font-poppins font-bold'>Description</h2>
-                      <h3 className='text-[16px] md:text-[18px] font-poppins text-[#9f9f9f]'>Reviews [5]</h3>
-                  </div>
-                  {/* <div>
-                  <p className='text-[12px] md:text-[14px] lg:text-[16px] text-[#9f9f9f] text-justify'>Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.<br />
-                      Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
-                  </div> */}
-                 
-          <SpecificReviews />
+          {/* Conditional Rendering */}
+          {activeSection === 'description' ? (
+            <p className='text-[12px] md:text-[14px] lg:text-[16px] text-[#9f9f9f] text-justify'>
+              {productDetail.description}
+            </p>
+          ) : (
+              <SpecificReviews
+               productId={productDetail?._id} />
+          )}
+
+          <PeopleAlsoViewed />      
           
-          <PeopleAlsoViewed/>
-                   
               </div>
         </Container>
     </div>

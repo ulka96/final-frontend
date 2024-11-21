@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Container from '../../common/containerClass';
 import SingleReview from '../singleReview';
+import { useSelector } from 'react-redux';
 
 const Reviews = () => {
     const settings = {
@@ -46,6 +47,9 @@ const Reviews = () => {
         )
     };
 
+    const reviews = useSelector((state) => state.reviews.reviews)
+
+
     return (
         <section className="w-full overflow-hidden flex flex-row lg:p-8 p-4 justify-center items-center bg-[#f7f7f7] mb-5 mt-20">
             <Container>
@@ -55,11 +59,16 @@ const Reviews = () => {
                 </div>
                 
                 <Slider {...settings} className="lg:space-x-3 space-x-3 md:mb-4 mb-2 overflow-hidden">
+                    {
+                        reviews && reviews.map((review) => {
+                            return <SingleReview key={review._id} review={review} />
+                        })
+                    }                    
+                     
+                    {/* <SingleReview />
                     <SingleReview />
                     <SingleReview />
-                    <SingleReview />
-                    <SingleReview />
-                    <SingleReview />
+                    <SingleReview /> */}
                     
                 </Slider>
             </Container>

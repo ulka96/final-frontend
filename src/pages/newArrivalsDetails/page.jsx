@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Modal from 'react-modal';
 
 
 // Components
@@ -8,6 +7,7 @@ import Container from '../../components/common/containerClass'
 import { Link, useParams } from 'react-router-dom';
 import RightSideProduct from '../../components/productDetails/rightSideProduct';
 import { useSelector } from 'react-redux';
+import ReviewModal from '../../components/reviews/writeReviewModal';
 
 // const stars = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
@@ -16,7 +16,6 @@ const NewArrivalsDetailsPage = () => {
   const [newArrivalDetail, setNewArrivalDetail] = useState(null);  
   const [activeSection, setActiveSection] = useState('description');
   const [ratings, setRatings] = useState(0)
-  const [review, setReview] = useState({ rating: 0, comment: '' });
   const [showModal, setShowModal] = useState(false);
 
   const { productId } = useParams();
@@ -70,28 +69,9 @@ const NewArrivalsDetailsPage = () => {
     setShowModal(true);
   };
 
-  const handleReviewSubmit = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/reviews`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          productId,
-          userId,
-          rating: review.rating,
-          comment: review.comment,
-        }),
-      });
-
-      if (!response.ok) throw new Error('Failed to submit review');
-      alert('Review submitted successfully!');
-      setShowModal(false);
-      fetchProductRatings(); // Refresh ratings
-    } catch (error) {
-      console.error('Error submitting review:', error);
-      alert('Error submitting review');
-    }
-  };
+  
+  
+  // const reviews = useSelector((state) => state.reviews.reviews)
 
 
   return (
@@ -113,8 +93,6 @@ const NewArrivalsDetailsPage = () => {
                   <div className='flex flex-col mt-6 md:mt-0 lg:mt-0 w-full flex-grow'>
                     
               
-
-
               <RightSideProduct
                 newArrivalDetail={newArrivalDetail}
                 fetchProductRatings={fetchProductRatings}
@@ -140,7 +118,7 @@ const NewArrivalsDetailsPage = () => {
               onClick={() => setActiveSection('reviews')}
               className={`text-[16px] md:text-[18px] cursor-pointer font-poppins ${activeSection === 'reviews' ? 'font-bold' : 'text-[#9f9f9f]'}`}
             >
-              Reviews [5]
+              Reviews 
             </h3>
             {activeSection === 'reviews' && <div className='p-2 border border-black rounded-lg hover:text-white hover:bg-black'>
               <button onClick={handleWriteReview}>
@@ -161,38 +139,13 @@ const NewArrivalsDetailsPage = () => {
                                       
               </div>
       </Container>
-      
-       {/* Modal for Writing Review */}
-       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <h2 className="text-lg font-bold mb-4">Write a Review</h2>
-          <div>
-            <label className="block text-sm">Rating:</label>
-            <input
-              type="number"
-              min="1"
-              max="5"
-              value={review.rating}
-              onChange={(e) => setReview({ ...review, rating: e.target.value })}
-              className="border p-2 rounded mb-4 w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm">Comment:</label>
-            <textarea
-              value={review.comment}
-              onChange={(e) => setReview({ ...review, comment: e.target.value })}
-              className="border p-2 rounded mb-4 w-full"
-            />
-          </div>
-          <button
-            onClick={handleReviewSubmit}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Submit Review
-          </button>
-        </Modal>
-      )}
+
+      {
+        showModal && (
+          <ReviewModal productId={productId} showModal={showModal} setShowModal={setShowModal} fetchProductRatings={fetchProductRatings } />
+        )
+      }
+
     </div>
   )
 }
