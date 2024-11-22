@@ -20,6 +20,7 @@ const NewArrivalsDetailsPage = () => {
 
   const { productId } = useParams();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
   // const userId = useSelector((state) => state.auth.user?._id);
   
 

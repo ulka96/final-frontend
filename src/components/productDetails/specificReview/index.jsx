@@ -2,6 +2,7 @@
 import React from 'react';
 import { BiSolidQuoteAltLeft } from "react-icons/bi";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import {CgProfile} from "react-icons/cg"
 
 
 
@@ -9,7 +10,10 @@ const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 
 const SpecificReview = ({ review }) => {
   
-  const averageRating = review.rating.rating
+  console.log(review)
+  const averageRating = review.rating?.rating
+
+
   const formattedAverageRating = averageRating?.toFixed(1) || '0.0';
   
 
@@ -25,7 +29,13 @@ const SpecificReview = ({ review }) => {
       </div>
       <div className='flex flex-col lg:flex-row lg:gap-4 items-center mt-auto'> 
         <div className="flex flex-row items-center gap-4">
-            <img src={`http://localhost:3000/${review.userId.profilePic}`} alt="profile" className="w-10 h-10 rounded-full border-2 border-gray-200" />
+
+          { review?.userId.profilePic && <img src={`http://localhost:3000/${review?.userId.profilePic}`}
+            alt="profile"
+            className="w-10 h-10 rounded-full border-2 border-gray-200" />}
+          
+          {!review?.userId.profilePic && <CgProfile className="w-10 h-10 text-gray-500 lg:mt-3" />}
+
           <h4 className="text-gray-500 text-[14px] md:text-[16px] font-semibold leading-3">{review.userId.userName}</h4>
         </div>
  <div className="flex flex-row items-center gap-1 ">
