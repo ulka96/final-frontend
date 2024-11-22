@@ -36,7 +36,7 @@ const SpecificReview = ({ review }) => {
           
           {!review?.userId.profilePic && <CgProfile className="w-10 h-10 text-gray-500 lg:mt-3" />}
 
-          <h4 className="text-gray-500 text-[14px] md:text-[16px] font-semibold leading-3">{review.userId.userName}</h4>
+          <h4 className="text-gray-500 text-[14px] md:text-[16px] font-semibold leading-3">{review?.userId.userName}</h4>
         </div>
  <div className="flex flex-row items-center gap-1 ">
                     {stars.map((star) => (
