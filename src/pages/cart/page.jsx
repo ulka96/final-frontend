@@ -17,24 +17,33 @@ const handleCheckoutAndCart = () => {
 }
 
   const dispatch = useDispatch();
+    
     const cart = useSelector((state) => state.cart.cart);
     
     console.log(cart)
+    
+    
+  
+    
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   if (!isLoggedIn) {
     return <p>Please log in to view your cart.</p>;
   }
 
+// Update cart
   const handleQuantityChange = (productId, quantity) => {
     if (quantity >= 0) {
       dispatch(updateQuantity({ productId, quantity }));
     }
     };
+
     
-
-
-
+    const subtotal = cart.reduce((acc, item) => {
+        return acc + item?.product?.discountedPrice * item?.quantity;
+      }, 0);
+      
+    
 
   return (
       <div>
@@ -66,10 +75,10 @@ const handleCheckoutAndCart = () => {
                         
                         {cart?.length !== 0 &&
                            <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {cart.map((item) => {
+                            {cart && cart.map((item) => {
                         return  <li  key={item?.product._id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                             <img src={`http://localhost:3000/${item?.product.productPic}`} alt={item?.product.title} className='h-full w-full object-cover object-center'/>
+                             <img src={`http://localhost:3000/${item?.product?.productPic}`} alt={item?.product.title} className='h-full w-full object-cover object-center'/>
                          </div>
                              <div className="ml-4 flex flex-1 flex-col justify-between">
                                 <div>
@@ -77,7 +86,7 @@ const handleCheckoutAndCart = () => {
                                         <h3 className=''>
                                         {item?.product.title}
                                         </h3>
-                                        <p className="ml-4 text-[14px] text-[#7c71df]">${item?.product.discountedPrice}</p>
+                                        <p className="ml-4 text-[14px] text-[#7c71df]">${item?.product?.discountedPrice * item?.quantity}</p>
                                     </div>
                                 </div>
                                                         
@@ -120,11 +129,7 @@ const handleCheckoutAndCart = () => {
                          })
                                                               
                          }                         
-
-                                                          
-
-
-                                                          
+                          
                              </ul>}
                                                       
 
@@ -134,7 +139,7 @@ const handleCheckoutAndCart = () => {
                         {cart.length !== 0 && <div className="border-t border-gray-200 px-4 py-6  sm:px-6 mt-56 lg:mt-[600px]">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal</p>
-                                            <p>$262.00</p>
+                                            <p>${subtotal.toFixed(2)}</p>
                                         </div>
                                         <div className="mt-6">
                                                       <div className="flex items-center justify-center rounded-md border border-transparent bg-[#7c71df] 

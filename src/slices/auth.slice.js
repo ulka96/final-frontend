@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 
 // Initialize state from localStorage if available
 const initialState = {
@@ -15,11 +16,13 @@ const authSlice = createSlice({
       state.user = action.payload;
       
       localStorage.setItem('isLoggedIn', JSON.stringify(true));
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      // localStorage.setItem('user', JSON.stringify(action.payload));
     },
+
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
+      
 
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('user');

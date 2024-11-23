@@ -5,7 +5,6 @@ import {CiHeart} from "react-icons/ci";
 import { PiShoppingCart } from "react-icons/pi";
 import {AiFillHeart} from "react-icons/ai"
 
-
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToWishlist, removeFromWishlist } from '../../../slices/wishlist.slice';

@@ -8,26 +8,28 @@ import { loadCart } from './slices/cart.slice';
 const App = () => {
 const location = useLocation();
 
-// const dispatch = useDispatch();
+const dispatch = useDispatch();
 
-  // const user = JSON.parse(localStorage.getItem("user"))
+const userId = JSON.parse(localStorage.getItem("userId"))
+
+const getSpecificCart = async () => {
   
-// const user = useSelector((state) => state.auth.user)
+    const response = await fetch("http://localhost:3000/api/cart", {
+      method: "GET",
+      credentials: "include",
+    });
 
-// const getSpecificCart = async() => {
-//   const response = await fetch(`http://localhost:3000/api/cart?user=${user}`);
-//   const data = await response.json();
+  const data = await response.json()
+  console.log(data?.cart)
 
-//   console.log(data)
-  // dispatch(loadCart(data))
-// }
+  // dispatch(loadCart(data?.cart))
 
-// useEffect(() => {
-//   getSpecificCart();
-// }, []);
+}
+
+useEffect(() => {
+  getSpecificCart()
+}, [userId])
   
-
-
   return (
 
     <div>

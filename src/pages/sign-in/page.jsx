@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 // Actions
 
 import {login, setUser} from "../../slices/auth.slice.js"
-import { clearCart, loadCart } from '../../slices/cart.slice.js';
+import { loadCart } from '../../slices/cart.slice.js';
 import { clearWishlist, loadWishlist } from '../../slices/wishlist.slice.js';
 
 
@@ -68,6 +68,10 @@ const navigate = useNavigate()
       if (response.ok) {
         dispatch(setUser(data.user))
         dispatch(login(data.user))
+
+
+        localStorage.setItem("userId", JSON.stringify(data.user._id))
+
         
         navigate("/")
         props.closeLogin()
